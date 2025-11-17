@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - NdiayeTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #004AAD;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .blog-hero {
+            padding: 150px 0 50px;
+            background: linear-gradient(rgba(0, 74, 173, 0.9), rgba(0, 74, 173, 0.9)), url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--gold);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--white);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Blog Content */
+        .blog-content {
+            padding: 80px 0;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        /* Articles List */
+        .articles-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .article-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .article-card:hover .article-image img {
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .article-category {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .article-excerpt {
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--primary-blue);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            color: var(--gold);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .sidebar-widget {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-widget:last-child {
+            margin-bottom: 0;
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* Categories Widget */
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .categories-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .categories-list a:hover {
+            color: var(--primary-blue);
+        }
+
+        .category-count {
+            background-color: var(--light-gray);
+            color: var(--primary-blue);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Recent Posts Widget */
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-post {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-post-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .recent-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recent-post-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Tags Widget */
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: var(--light-gray);
+            color: var(--primary-blue);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Newsletter Widget */
+        .newsletter-form {
+            margin-top: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 5px;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            transition: var(--transition);
+        }
+
+        .pagination-item:hover, .pagination-item.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Coming Soon Section */
+        .coming-soon {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .coming-soon i {
+            font-size: 4rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .coming-soon h2 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .coming-soon p {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background-color: var(--white);
+                width: 280px;
+                height: calc(100vh - 80px);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .blog-hero {
+                padding: 130px 0 40px;
+            }
+
+            .articles-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .article-title {
+                font-size: 1.2rem;
+            }
+
+            .coming-soon h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Ndiaye<span>Tech</span></h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="NdiayeTech.html">Accueil</a></li>
+                    <li><a href="Inscription.html">À propos</a></li>
+                    <li><a href="Formations.html">Formations</a></li>
+                    <li><a href="Blog.html" class="active">Blog</a></li>
+                    <li><a href="Inscription.html">Inscription</a></li>
+                    <li><a href="#" id="contact-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <div class="section-title">
+                <h2>Blog NdiayeTech</h2>
+                <p>Découvrez nos articles sur la technologie, le développement personnel et l'actualité du numérique</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content">
+        <div class="container">
+            <!-- Coming Soon Message -->
+            <div class="coming-soon">
+                <i class="fas fa-tools"></i>
+                <h2>Section en construction</h2>
+                <p>Notre blog est en cours de préparation. Revenez bientôt pour découvrir des articles passionnants sur la technologie, le développement web, la robotique, le développement personnel et bien plus encore!</p>
+                <a href="NdiayeTech.html" class="btn">Retour à l'accueil</a>
+            </div>
+
+            <div class="blog-container">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <div class="articles-list">
+                        <!-- Article 1 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Développement Web">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 15 Nov 2024</span>
+                                    <span class="article-category">Développement Web</span>
+                                </div>
+                                <h3 class="article-title">Les tendances du développement web en 2025</h3>
+                                <p class="article-excerpt">Découvrez les frameworks et technologies qui dominent le paysage du développement web cette année et comment ils peuvent booster votre carrière.</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Article 2 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Robotique">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 8 Nov 2024</span>
+                                    <span class="article-category">Robotique</span>
+                                </div>
+                                <h3 class="article-title">Introduction à Arduino pour les débutants</h3>
+                                <p class="article-excerpt">Apprenez les bases de la programmation Arduino et comment créer vos premiers projets robotiques même sans expérience préalable en électronique.</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Article 3 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Bureautique">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 2 Nov 2024</span>
+                                    <span class="article-category">Bureautique</span>
+                                </div>
+                                <h3 class="article-title">Maîtriser Excel : 10 fonctions essentielles</h3>
+                                <p class="article-excerpt">Découvrez les fonctions Excel les plus utiles pour augmenter votre productivité et impressionner vos collègues au travail.</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Article 4 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="Développement Personnel">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 25 Oct 2024</span>
+                                    <span class="article-category">Développement Personnel</span>
+                                </div>
+                                <h3 class="article-title">5 techniques pour booster votre confiance en vous</h3>
+                                <p class="article-excerpt">Des méthodes pratiques et éprouvées pour développer une confiance en soi solide et durable dans votre vie personnelle et professionnelle.</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Article 5 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1589652717521-10c0d092dea9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Cybersécurité">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 18 Oct 2024</span>
+                                    <span class="article-category">Cybersécurité</span>
+                                </div>
+                                <h3 class="article-title">Protégez vos données en ligne : guide pratique</h3>
+                                <p class="article-excerpt">Les meilleures pratiques pour sécuriser vos informations personnelles et professionnelles dans un monde de plus en plus connecté.</p>
+
+                            </div>
+                        </div>
+
+                        <!-- Article 6 -->
+                        <div class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Leadership">
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <span class="article-date"><i class="far fa-calendar"></i> 10 Oct 2024</span>
+                                    <span class="article-category">Leadership</span>
+                                </div>
+                                <h3 class="article-title">Devenez un leader inspirant : les qualités essentielles</h3>
+                                <p class="article-excerpt">Découvrez les traits de caractère et compétences qui distinguent les grands leaders et comment les développer au quotidien.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <a href="#" class="pagination-item active">1</a>
+                        <a href="#" class="pagination-item">2</a>
+                        <a href="#" class="pagination-item">3</a>
+                        <a href="#" class="pagination-item"><i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- About Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">À propos du blog</h3>
+                        <p>Le blog NdiayeTech vous offre des conseils, tutoriels et actualités sur la technologie, le développement personnel et les compétences numériques.</p>
+                    </div>
+
+                    <!-- Categories Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Catégories</h3>
+                        <ul class="categories-list">
+                            <li><a href="#">Développement Web <span class="category-count">8</span></a></li>
+                            <li><a href="#">Robotique <span class="category-count">5</span></a></li>
+                            <li><a href="#">Bureautique <span class="category-count">7</span></a></li>
+                            <li><a href="#">Développement Personnel <span class="category-count">6</span></a></li>
+                            <li><a href="#">Cybersécurité <span class="category-count">4</span></a></li>
+                            <li><a href="#">Leadership <span class="category-count">5</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Recent Posts Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Articles récents</h3>
+                        <ul class="recent-posts-list">
+                            <li class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Article récent">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4>Les tendances du développement web en 2025</h4>
+                                    <span class="recent-post-date">15 Nov 2024</span>
+                                </div>
+                            </li>
+                            <li class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Article récent">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4>Introduction à Arduino pour les débutants</h4>
+                                    <span class="recent-post-date">8 Nov 2024</span>
+                                </div>
+                            </li>
+                            <li class="recent-post">
+                                <div class="recent-post-image">
+                                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Article récent">
+                                </div>
+                                <div class="recent-post-content">
+                                    <h4>Maîtriser Excel : 10 fonctions essentielles</h4>
+                                    <span class="recent-post-date">2 Nov 2024</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tags Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Tags populaires</h3>
+                        <div class="tags-cloud">
+                            <a href="#" class="tag">HTML/CSS</a>
+                            <a href="#" class="tag">JavaScript</a>
+                            <a href="#" class="tag">Python</a>
+                            <a href="#" class="tag">Arduino</a>
+                            <a href="#" class="tag">Excel</a>
+                            <a href="#" class="tag">Confiance</a>
+                            <a href="#" class="tag">Leadership</a>
+                            <a href="#" class="tag">Sécurité</a>
+                            <a href="#" class="tag">React</a>
+                            <a href="#" class="tag">Node.js</a>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Newsletter</h3>
+                        <p>Abonnez-vous à notre newsletter pour recevoir les derniers articles et actualités.</p>
+                        <form class="newsletter-form">
+                            <div class="form-group">
+                                <input type="email" placeholder="Votre adresse email" required>
+                            </div>
+                            <button type="submit" class="btn">S'abonner</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>NdiayeTech</h3>
+                    <p>Centre de formation technologique et de développement personnel à Kédougou.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="A propos.html">À propos</a></li>
+                        <li><a href="Formations.html">Formations</a></li>
+                        <li><a href="Blog.html">Blog</a></li>
+                        <a href="NdiayeTech.html#footer">Contact</a>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contactez-nous</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 78-197-98-37</li>
+                        <li><i class="fas fa-envelope"></i> mohandiaye@icloud.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Kédougou, Sénégal</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-links">
+                            <a href="https://www.tiktok.com/@futureleader_03" target="_blank" rel="noopener" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://wa.me/221781979827" target="_blank" rel="noopener" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.instagram.com/mohandiaye32024" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/adama-mamadou-ndiaye" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NdiayeTech - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Menu Hamburger
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('sticky', window.scrollY > 0);
+        });
+
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.article-card, .sidebar-widget');
+            
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (position < screenPosition) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize elements for animation
+        document.querySelectorAll('.article-card, .sidebar-widget').forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            
+            if (email) {
+                alert('Merci de vous être abonné à notre newsletter !');
+                newsletterForm.reset();
+            }
+        });
+    </script>
+</body>
+</html>

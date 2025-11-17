@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - NdiayeTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #004AAD;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .inscription-hero {
+            padding: 150px 0 50px;
+            background: linear-gradient(rgba(0, 74, 173, 0.9), rgba(0, 74, 173, 0.9)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--gold);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--white);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Inscription Form */
+        .inscription-form {
+            padding: 80px 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .form-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #eee;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-step.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .progress-step.completed {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-blue);
+            background-color: rgba(0, 74, 173, 0.1);
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        /* Summary Section */
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 2px solid #eee;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background-color: var(--white);
+                width: 280px;
+                height: calc(100vh - 80px);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .inscription-hero {
+                padding: 130px 0 40px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Ndiaye<span>Tech</span></h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="A propos.html">À propos</a></li>
+                    <li><a href="Formations.html">Formations</a></li>
+                    <li><a href="Blog.html">Blog</a></li>
+                    <li><a href="Inscription.html" class="active">Inscription</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="inscription-hero">
+        <div class="container">
+            <div class="section-title">
+                <h2>Inscription aux Formations</h2>
+                <p>Remplissez le formulaire pour vous inscrire à l'une de nos formations et commencer votre parcours vers l'excellence</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inscription Form -->
+    <section class="inscription-form">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-progress">
+                    <div class="progress-step active">1</div>
+                    <div class="progress-step">2</div>
+                    <div class="progress-step">3</div>
+                    <div class="progress-step">4</div>
+                </div>
+
+                <form id="inscriptionForm">
+                    <!-- Section 1: Informations Personnelles -->
+                    <div class="form-section active" id="section1">
+                        <h3>Informations Personnelles</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input type="text" id="prenom" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">Nom *</label>
+                                <input type="text" id="nom" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date_naissance">Date de naissance *</label>
+                                <input type="date" id="date_naissance" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lieu_naissance">Lieu de naissance *</label>
+                                <input type="text" id="lieu_naissance" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nationalite">Nationalité *</label>
+                                <input type="text" id="nationalite" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="genre">Genre *</label>
+                                <select id="genre" class="form-control" required>
+                                    <option value="">Sélectionnez</option>
+                                    <option value="masculin">Masculin</option>
+                                    <option value="feminin">Féminin</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <div></div>
+                            <button type="button" class="btn" onclick="showSection(2)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Coordonnées -->
+                    <div class="form-section" id="section2">
+                        <h3>Coordonnées</h3>
+                        
+                        <div class="form-group">
+                            <label for="adresse">Adresse complète *</label>
+                            <input type="text" id="adresse" class="form-control" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ville">Ville *</label>
+                                <input type="text" id="ville" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pays">Pays *</label>
+                                <input type="text" id="pays" class="form-control" value="Sénégal" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telephone">Téléphone *</label>
+                                <input type="tel" id="telephone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-outline" onclick="showSection(1)">Précédent</button>
+                            <button type="button" class="btn" onclick="showSection(3)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Formation et Paiement -->
+                    <div class="form-section" id="section3">
+                        <h3>Formation et Paiement</h3>
+                        
+                        <div class="form-group">
+                            <label for="formation">Formation choisie *</label>
+                            <select id="formation" class="form-control" required>
+                                <option value="">Sélectionnez une formation</option>
+                                <option value="bureautique">Bureautique - 10 000 Fcfa (inscription) + 25 000 Fcfa/mois</option>
+                                <option value="robotique">Robotique (Arduino) - 15 000 Fcfa (inscription) + 35 000 Fcfa/mois</option>
+                                <option value="developpement-web">Développement Web - 15 000 Fcfa (inscription) + 25 000 Fcfa/mois</option>
+                                <option value="developpement-personnel">Développement personnel - 5 000 Fcfa (inscription) + 15 000 Fcfa/mois</option>
+                                <option value="leadership">Leadership - 5 000 Fcfa (inscription) + 15 000 Fcfa/mois</option>
+                                <option value="prise-de-parole">Prise de parole en public - 5 000 Fcfa (inscription) + 15 000 Fcfa/mois</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mode de paiement *</label>
+                            <div class="payment-methods">
+                                <div class="payment-method" data-method="orange-money">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <p>Orange Money</p>
+                                </div>
+                                <div class="payment-method" data-method="wave">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <p>Wave</p>
+                                </div>
+                                <div class="payment-method" data-method="especes">
+                                    <i class="fas fa-money-bill"></i>
+                                    <p>Espèces</p>
+                                </div>
+                                <div class="payment-method" data-method="virement">
+                                    <i class="fas fa-university"></i>
+                                    <p>Virement</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="payment-method" required>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-outline" onclick="showSection(2)">Précédent</button>
+                            <button type="button" class="btn" onclick="showSection(4)">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Récapitulatif -->
+                    <div class="form-section" id="section4">
+                        <h3>Récapitulatif</h3>
+                        
+                        <div class="summary-item">
+                            <span>Prénom et Nom:</span>
+                            <span id="summary-name"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Date et Lieu de naissance:</span>
+                            <span id="summary-birth"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Nationalité:</span>
+                            <span id="summary-nationality"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Adresse:</span>
+                            <span id="summary-address"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Téléphone:</span>
+                            <span id="summary-phone"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Email:</span>
+                            <span id="summary-email"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Formation:</span>
+                            <span id="summary-formation"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Mode de paiement:</span>
+                            <span id="summary-payment"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="comments">Commentaires ou questions</label>
+                            <textarea id="comments" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-outline" onclick="showSection(3)">Précédent</button>
+                            <button type="submit" class="btn">Envoyer l'inscription</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>NdiayeTech</h3>
+                    <p>Centre de formation technologique et de développement personnel à Kédougou.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="A propos.html">À propos</a></li>
+                        <li><a href="Formations.html">Formations</a></li>
+                        <li><a href="Blog.html">Blog</a></li>
+                        <li><a href="Inscription.html">Inscription</a></li>
+                        <a href="NdiayeTech.html#footer">Contact</a>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contactez-nous</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 78-197-98-37</li>
+                        <li><i class="fas fa-envelope"></i> mohandiaye@icloud.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Kédougou, Sénégal</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-links">
+                        <a href="https://www.tiktok.com/@futureleader_03" target="_blank" rel="noopener" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/221781979827" target="_blank" rel="noopener" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/mohandiaye32024" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/adama-mamadou-ndiaye" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NdiayeTech - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Menu Hamburger
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('sticky', window.scrollY > 0);
+        });
+
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Form Navigation
+        let currentSection = 1;
+        const totalSections = 4;
+
+        function showSection(sectionNum) {
+            // Valider la section actuelle avant de passer à la suivante
+            if (sectionNum > currentSection && !validateSection(currentSection)) {
+                return;
+            }
+            
+            // Masquer toutes les sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Afficher la section demandée
+            document.getElementById(`section${sectionNum}`).classList.add('active');
+            
+            // Mettre à jour la progression
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < sectionNum) {
+                    step.classList.add('completed');
+                } else if (index + 1 === sectionNum) {
+                    step.classList.add('active');
+                }
+            });
+            
+            currentSection = sectionNum;
+            
+            // Mettre à jour le récapitulatif si on est à la dernière section
+            if (sectionNum === 4) {
+                updateSummary();
+            }
+        }
+
+        function validateSection(sectionNum) {
+            // Validation pour la section 1
+            if (sectionNum === 1) {
+                const prenom = document.getElementById('prenom').value;
+                const nom = document.getElementById('nom').value;
+                const dateNaissance = document.getElementById('date_naissance').value;
+                const lieuNaissance = document.getElementById('lieu_naissance').value;
+                
+                if (!prenom || !nom || !dateNaissance || !lieuNaissance) {
+                    alert('Veuillez remplir tous les champs obligatoires de la section Informations Personnelles');
+                    return false;
+                }
+            }
+            
+            // Validation pour la section 2
+            if (sectionNum === 2) {
+                const adresse = document.getElementById('adresse').value;
+                const telephone = document.getElementById('telephone').value;
+                const email = document.getElementById('email').value;
+                
+                if (!adresse || !telephone || !email) {
+                    alert('Veuillez remplir tous les champs obligatoires de la section Coordonnées');
+                    return false;
+                }
+                
+                // Validation basique de l'email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Veuillez entrer une adresse email valide');
+                    return false;
+                }
+            }
+            
+            // Validation pour la section 3
+            if (sectionNum === 3) {
+                const formation = document.getElementById('formation').value;
+                const paymentMethod = document.getElementById('payment-method').value;
+                
+                if (!formation) {
+                    alert('Veuillez sélectionner une formation');
+                    return false;
+                }
+                
+                if (!paymentMethod) {
+                    alert('Veuillez sélectionner un mode de paiement');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Payment method selection
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const paymentMethodInput = document.getElementById('payment-method');
+        
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                method.classList.add('selected');
+                paymentMethodInput.value = method.getAttribute('data-method');
+            });
+        });
+
+        // Update summary
+        function updateSummary() {
+            document.getElementById('summary-name').textContent = `${document.getElementById('prenom').value} ${document.getElementById('nom').value}`;
+            document.getElementById('summary-birth').textContent = `${formatDate(document.getElementById('date_naissance').value)} à ${document.getElementById('lieu_naissance').value}`;
+            document.getElementById('summary-nationality').textContent = document.getElementById('nationalite').value;
+            document.getElementById('summary-address').textContent = `${document.getElementById('adresse').value}, ${document.getElementById('ville').value}, ${document.getElementById('pays').value}`;
+            document.getElementById('summary-phone').textContent = document.getElementById('telephone').value;
+            document.getElementById('summary-email').textContent = document.getElementById('email').value;
+            
+            const formationSelect = document.getElementById('formation');
+            document.getElementById('summary-formation').textContent = formationSelect.options[formationSelect.selectedIndex].text;
+            
+            document.getElementById('summary-payment').textContent = document.getElementById('payment-method').value;
+        }
+
+        // Format date to French format
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR');
+        }
+
+        // Form submission
+        const inscriptionForm = document.getElementById('inscriptionForm');
+        
+        inscriptionForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateSection(4)) {
+                // Get form data
+                const prenom = document.getElementById('prenom').value;
+                const nom = document.getElementById('nom').value;
+                const dateNaissance = document.getElementById('date_naissance').value;
+                const lieuNaissance = document.getElementById('lieu_naissance').value;
+                const nationalite = document.getElementById('nationalite').value;
+                const genre = document.getElementById('genre').value;
+                const adresse = document.getElementById('adresse').value;
+                const ville = document.getElementById('ville').value;
+                const pays = document.getElementById('pays').value;
+                const telephone = document.getElementById('telephone').value;
+                const email = document.getElementById('email').value;
+                const formation = document.getElementById('formation').value;
+                const paymentMethod = document.getElementById('payment-method').value;
+                const comments = document.getElementById('comments').value;
+                
+                // Create mailto link
+                const subject = `Nouvelle inscription: ${prenom} ${nom}`;
+                const body = `Nouvelle inscription à NdiayeTech:
+
+                INFORMATIONS PERSONNELLES:
+                Prénom: ${prenom}
+                Nom: ${nom}
+                Date de naissance: ${formatDate(dateNaissance)}
+                Lieu de naissance: ${lieuNaissance}
+                Nationalité: ${nationalite}
+                Genre: ${genre}
+
+                COORDONNÉES:
+                Adresse: ${adresse}
+                Ville: ${ville}
+                Pays: ${pays}
+                Téléphone: ${telephone}
+                Email: ${email}
+
+                FORMATION:
+                Formation choisie: ${document.getElementById('formation').options[document.getElementById('formation').selectedIndex].text}
+                Mode de paiement: ${paymentMethod}
+
+                COMMENTAIRES:
+                ${comments || 'Aucun commentaire'}`.trim();
+                window.location.href = `mailto:mohandiaye3@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                // Show success message
+                alert('Votre inscription a été envoyée! Vous serez redirigé vers votre client email.');
+            }
+        });
+    </script>
+</body>
+</html>

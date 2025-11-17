@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formations - NdiayeTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #004AAD;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .formations-hero {
+            padding: 150px 0 50px;
+            background: linear-gradient(rgba(0, 74, 173, 0.9), rgba(0, 74, 173, 0.9)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--gold);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--white);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Formations List */
+        .formations-list {
+            padding: 80px 0;
+        }
+
+        .formation-category {
+            margin-bottom: 60px;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--gold);
+            display: inline-block;
+        }
+
+        .formations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .formation-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .formation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .formation-header {
+            padding: 20px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .formation-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .formation-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+
+        .formation-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .formation-details {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .formation-details p {
+            margin-bottom: 15px;
+        }
+
+        .formation-skills {
+            margin: 15px 0;
+        }
+
+        .formation-skills h4 {
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background-color: var(--light-gray);
+            color: var(--primary-blue);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .formation-price {
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .price-total {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .formation-benefits {
+            margin: 15px 0;
+        }
+
+        .formation-benefits h4 {
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .benefits-list {
+            list-style-type: none;
+        }
+
+        .benefits-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .benefits-list li i {
+            color: var(--gold);
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background-color: var(--white);
+                width: 280px;
+                height: calc(100vh - 80px);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .formations-hero {
+                padding: 130px 0 40px;
+            }
+
+            .category-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .formations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .formation-header h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Ndiaye<span>Tech</span></h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="A propos.html">À propos</a></li>
+                    <li><a href="Formations.html" class="active">Formations</a></li>
+                    <li><a href="Blog.html">Blog</a></li>
+                    <li><a href="Inscription.html">Inscription</a></li>
+                    <li><a href="#" id="contact-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="formations-hero">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos Formations</h2>
+                <p>Découvrez nos programmes conçus pour vous donner les compétences nécessaires pour réussir dans le monde numérique</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formations List -->
+    <section class="formations-list">
+        <div class="container">
+            <!-- Bureautique -->
+            <div class="formation-category">
+                <h2 class="category-title">Bureautique</h2>
+                <div class="formations-grid">
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <h3>Formation Bureautique</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Maîtrisez les outils bureautiques essentiels pour exceller dans le monde professionnel. Cette formation complète vous préparera à utiliser efficacement les logiciels indispensables en entreprise.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">Word</span>
+                                        <span class="skill-tag">Excel</span>
+                                        <span class="skill-tag">PowerPoint</span>
+                                        <span class="skill-tag">Outlook</span>
+                                        <span class="skill-tag">Rédaction</span>
+                                        <span class="skill-tag">Présentation</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Augmentez votre productivité</li>
+                                        <li><i class="fas fa-check-circle"></i> Améliorez votre employabilité</li>
+                                        <li><i class="fas fa-check-circle"></i> Travaillez plus efficacement</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>25 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>3 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robotique -->
+            <div class="formation-category">
+                <h2 class="category-title">Robotique (Arduino)</h2>
+                <div class="formations-grid">
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Formation Robotique Arduino</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Plongez dans le monde passionnant de la robotique et de l'électronique avec Arduino. Apprenez à concevoir, programmer et contrôler vos propres projets robotiques.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">Programmation Arduino</span>
+                                        <span class="skill-tag">Électronique</span>
+                                        <span class="skill-tag">Capteurs</span>
+                                        <span class="skill-tag">Actionneurs</span>
+                                        <span class="skill-tag">Robotique</span>
+                                        <span class="skill-tag">Automatisation</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Développez votre créativité technique</li>
+                                        <li><i class="fas fa-check-circle"></i> Accès à un domaine en pleine expansion</li>
+                                        <li><i class="fas fa-check-circle"></i> Kits de démarrage Arduino offert</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>35 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>3 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Développement Web -->
+            <div class="formation-category">
+                <h2 class="category-title">Développement Web</h2>
+                <div class="formations-grid">
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Formation Développement Web</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Apprenez à créer des sites web modernes, responsives et interactifs. Devenez un développeur web complet en maîtrisant les technologies front-end et back-end.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">HTML/CSS</span>
+                                        <span class="skill-tag">JavaScript</span>
+                                        <span class="skill-tag">React</span>
+                                        <span class="skill-tag">Node.js</span>
+                                        <span class="skill-tag">Bases de données</span>
+                                        <span class="skill-tag">Déploiement</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Accédez à un métier très demandé</li>
+                                        <li><i class="fas fa-check-circle"></i> Travaillez en freelance ou en entreprise</li>
+                                        <li><i class="fas fa-check-circle"></i> Créez vos propres applications web</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>25 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>3 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formations en Développement Personnel -->
+            <div class="formation-category">
+                <h2 class="category-title">Développement Personnel</h2>
+                <div class="formations-grid">
+                    <!-- Développement Personnel -->
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h3>Développement Personnel</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Développez votre potentiel, améliorez votre confiance en vous et apprenez à mieux communiquer. Cette formation transformera votre vie personnelle et professionnelle.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">Confiance en soi</span>
+                                        <span class="skill-tag">Gestion du stress</span>
+                                        <span class="skill-tag">Communication</span>
+                                        <span class="skill-tag">Intelligence émotionnelle</span>
+                                        <span class="skill-tag">Fixation d'objectifs</span>
+                                        <span class="skill-tag">Gestion du temps</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Améliorez votre estime de vous</li>
+                                        <li><i class="fas fa-check-circle"></i> Développez une mentalité de croissance</li>
+                                        <li><i class="fas fa-check-circle"></i> Améliorez vos relations personnelles</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>5 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>2 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+
+                    <!-- Leadership -->
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Leadership</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Développez vos compétences en leadership et apprenez à inspirer, motiver et guider les autres. Devenez le leader que les organisations recherchent.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">Gestion d'équipe</span>
+                                        <span class="skill-tag">Prise de décision</span>
+                                        <span class="skill-tag">Motivation</span>
+                                        <span class="skill-tag">Résolution de conflits</span>
+                                        <span class="skill-tag">Stratégie</span>
+                                        <span class="skill-tag">Délégation</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Accédez à des postes à responsabilité</li>
+                                        <li><i class="fas fa-check-circle"></i> Améliorez votre influence positive</li>
+                                        <li><i class="fas fa-check-circle"></i> Développez une vision stratégique</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>5 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>2 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+
+                    <!-- Prise de Parole en Public -->
+                    <div class="formation-card">
+                        <div class="formation-header">
+                            <div class="formation-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <h3>Prise de Parole en Public</h3>
+                        </div>
+                        <div class="formation-body">
+                            <div class="formation-details">
+                                <p>Maîtrisez l'art de parler en public avec aisance et conviction. Apprenez à captiver votre audience et à transmettre vos messages avec impact.</p>
+                                
+                                <div class="formation-skills">
+                                    <h4>Compétences acquises</h4>
+                                    <div class="skills-list">
+                                        <span class="skill-tag">Expression orale</span>
+                                        <span class="skill-tag">Gestion du trac</span>
+                                        <span class="skill-tag">Structuration du discours</span>
+                                        <span class="skill-tag">Langage corporel</span>
+                                        <span class="skill-tag">Improvisation</span>
+                                        <span class="skill-tag">Interaction avec l'audience</span>
+                                    </div>
+                                </div>
+
+                                <div class="formation-benefits">
+                                    <h4>Avantages</h4>
+                                    <ul class="benefits-list">
+                                        <li><i class="fas fa-check-circle"></i> Surmontez votre peur de parler en public</li>
+                                        <li><i class="fas fa-check-circle"></i> Améliorez votre influence persuasive</li>
+                                        <li><i class="fas fa-check-circle"></i> Développez votre charisme à l'oral</li>
+                                        <li><i class="fas fa-check-circle"></i> Certificat de formation obtenu</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="formation-price">
+                                <div class="price-item">
+                                    <span>Inscription:</span>
+                                    <span>5 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Mensualité:</span>
+                                    <span>15 000 F CFA</span>
+                                </div>
+                                <div class="price-item">
+                                    <span>Durée:</span>
+                                    <span>2 mois</span>
+                                </div>
+                            </div>
+
+                            <a href="Inscription.html" class="btn">S'inscrire maintenant</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>NdiayeTech</h3>
+                    <p>Centre de formation technologique et de développement personnel à Kédougou.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="A propos.html">À propos</a></li>
+                        <li><a href="Formations.html">Formations</a></li>
+                        <li><a href="Blog">Blog</a></li>
+                        <a href="NdiayeTech.html#footer">Contact</a>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contactez-nous</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 78-197-98-37</li>
+                        <li><i class="fas fa-envelope"></i> mohandiaye@icloud.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Kédougou, Sénégal</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-links">
+                            <a href="https://www.tiktok.com/@futureleader_03" target="_blank" rel="noopener" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://wa.me/221781979827" target="_blank" rel="noopener" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.instagram.com/mohandiaye32024" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/adama-mamadou-ndiaye" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NdiayeTech - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Menu Hamburger
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('sticky', window.scrollY > 0);
+        });
+
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.formation-card');
+            
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (position < screenPosition) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize elements for animation
+        document.querySelectorAll('.formation-card').forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
