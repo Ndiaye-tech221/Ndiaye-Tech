@@ -1,0 +1,1049 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestion des formations et activités de Passerelle Tech Kédougou.">
+    <title>Gestion des formations | PTK</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+
+    <style>
+        :root {
+            --bleu: #123b70;
+            --bleu-fonce: #0b2445;
+            --jaune: #f4c430;
+            --fond: #f3f6fa;
+            --texte: #243247;
+            --gris: #718096;
+            --blanc: #fff;
+            --bordure: #e1e7ef;
+            --vert: #16834b;
+            --rouge: #c0392b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--fond);
+            color: var(--texte);
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 21px;
+            margin: 0 0 5px;
+        }
+
+        header p {
+            margin: 0;
+            color: #cbd7e8;
+            font-size: 13px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .haut-page {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        h2 {
+            color: var(--bleu-fonce);
+            margin: 0 0 7px;
+        }
+
+        .sous-titre {
+            color: var(--gris);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .statistiques {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--bordure);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .stat span {
+            display: block;
+            color: var(--gris);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat strong {
+            font-size: 25px;
+            color: var(--bleu);
+        }
+
+        .panneau {
+            background: white;
+            border: 1px solid var(--bordure);
+            border-radius: 13px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .panneau h3 {
+            margin: 0 0 20px;
+            color: var(--bleu-fonce);
+        }
+
+        .grille-formulaire {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
+        }
+
+        .champ {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .champ.large {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d6deea;
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+            background: white;
+            color: var(--texte);
+        }
+
+        textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--bleu);
+        }
+
+        input:disabled {
+            background: #edf1f6;
+            color: #68758a;
+        }
+
+        .aide {
+            color: var(--gris);
+            font-size: 12px;
+        }
+
+        .cases {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cases input {
+            width: auto;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            border: 0;
+            padding: 11px 17px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .primaire {
+            background: var(--bleu);
+            color: white;
+        }
+
+        .secondaire {
+            background: #e9eef5;
+            color: var(--bleu-fonce);
+        }
+
+        .danger {
+            background: #fdebea;
+            color: var(--rouge);
+        }
+
+        .liste-entete {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 17px;
+        }
+
+        .liste-entete h3 {
+            margin: 0;
+        }
+
+        .liste-entete select {
+            max-width: 230px;
+        }
+
+        .table-conteneur {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--bordure);
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            color: var(--gris);
+            background: #f8fafc;
+        }
+
+        td strong {
+            color: var(--bleu-fonce);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #edf1f6;
+        }
+
+        .badge.vert {
+            background: #e4f6eb;
+            color: #167443;
+        }
+
+        .badge.orange {
+            background: #fff1d8;
+            color: #9b6500;
+        }
+
+        .badge.rouge {
+            background: #fdebea;
+            color: #b83227;
+        }
+
+        .actions-ligne {
+            display: flex;
+            gap: 7px;
+        }
+
+        .actions-ligne button {
+            padding: 7px 10px;
+        }
+
+        #message {
+            display: none;
+            padding: 13px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        #message.succes {
+            display: block;
+            background: #e5f6eb;
+            color: #176b3d;
+        }
+
+        #message.erreur {
+            display: block;
+            background: #fdebea;
+            color: #a52c24;
+        }
+
+        .vide {
+            text-align: center;
+            color: var(--gris);
+            padding: 30px;
+        }
+
+        @media (max-width: 750px) {
+            .statistiques {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grille-formulaire {
+                grid-template-columns: 1fr;
+            }
+
+            .champ.large {
+                grid-column: auto;
+            }
+
+            main {
+                padding: 0 12px;
+                margin-top: 20px;
+            }
+
+            .panneau {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .statistiques {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat {
+                padding: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>Passerelle Tech Kédougou</h1>
+        <p>Espace d'administration · Gestion des formations</p>
+    </div>
+    <a href="dashboard.html">← Retour au tableau de bord</a>
+</header>
+
+<main>
+
+    <div class="haut-page">
+        <div>
+            <h2>Gestion des formations</h2>
+            <p class="sous-titre">
+                Créer, modifier et gérer les activités de PTK.
+            </p>
+        </div>
+    </div>
+
+    <div id="message"></div>
+
+    <section class="statistiques">
+        <div class="stat">
+            <span>Total des activités</span>
+            <strong id="total">0</strong>
+        </div>
+        <div class="stat">
+            <span>Activités publiées</span>
+            <strong id="publiees">0</strong>
+        </div>
+        <div class="stat">
+            <span>Inscriptions ouvertes</span>
+            <strong id="ouvertes">0</strong>
+        </div>
+        <div class="stat">
+            <span>Activités terminées</span>
+            <strong id="terminees">0</strong>
+        </div>
+    </section>
+
+    <section class="panneau" id="formulaire-section">
+
+        <h3 id="titre-formulaire">Ajouter une activité</h3>
+
+        <form id="formulaire">
+
+            <input type="hidden" id="formation-id">
+
+            <div class="grille-formulaire">
+
+                <div class="champ large">
+                    <label for="nom">Nom de l'activité *</label>
+                    <input
+                        type="text"
+                        id="nom"
+                        required
+                        maxlength="200"
+                        placeholder="Exemple : Camp technologique 2027"
+                    >
+                </div>
+
+                <div class="champ large">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        placeholder="Présentez cette activité..."
+                    ></textarea>
+                </div>
+
+                <div class="champ">
+                    <label for="type">Type d'activité *</label>
+                    <select id="type" required>
+                        <option value="camp_technologique">
+                            Camp technologique
+                        </option>
+                        <option value="formation_numerique">
+                            Formation numérique
+                        </option>
+                    </select>
+                </div>
+
+                <div class="champ">
+                    <label for="prix">Prix (FCFA)</label>
+                    <input
+                        type="number"
+                        id="prix"
+                        min="0"
+                        step="1"
+                        value="0"
+                        required
+                    >
+                    <span class="aide" id="aide-prix">
+                        Le camp technologique est gratuit dans cette base.
+                    </span>
+                </div>
+
+                <div class="champ">
+                    <label for="date-debut">Date de début</label>
+                    <input type="date" id="date-debut">
+                </div>
+
+                <div class="champ">
+                    <label for="date-fin">Date de fin</label>
+                    <input type="date" id="date-fin">
+                </div>
+
+                <div class="champ">
+                    <label for="ouverture">Ouverture des inscriptions</label>
+                    <input type="date" id="ouverture">
+                </div>
+
+                <div class="champ">
+                    <label for="cloture">Clôture des inscriptions</label>
+                    <input type="date" id="cloture">
+                </div>
+
+                <div class="champ">
+                    <label for="places">Nombre de places</label>
+                    <input
+                        type="number"
+                        id="places"
+                        min="1"
+                        step="1"
+                        placeholder="Laisser vide si illimité"
+                    >
+                </div>
+
+                <div class="champ">
+                    <label for="statut-activite">État de l'activité</label>
+                    <select id="statut-activite">
+                        <option value="planifiee">Planifiée</option>
+                        <option value="en_cours">En cours</option>
+                        <option value="terminee">Terminée</option>
+                        <option value="annulee">Annulée</option>
+                    </select>
+                </div>
+
+                <div class="champ">
+                    <label for="statut-inscriptions">État des inscriptions</label>
+                    <select id="statut-inscriptions">
+                        <option value="non_ouvertes">Non ouvertes</option>
+                        <option value="ouvertes">Ouvertes</option>
+                        <option value="fermees">Fermées</option>
+                    </select>
+                </div>
+
+                <div class="champ">
+                    <label>Publication</label>
+                    <div class="cases">
+                        <input type="checkbox" id="publier">
+                        <label for="publier">Publier cette activité sur le site</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="primaire" id="bouton-enregistrer">
+                    Enregistrer l'activité
+                </button>
+
+                <button
+                    type="button"
+                    class="secondaire"
+                    id="bouton-annuler"
+                    style="display:none"
+                >
+                    Annuler la modification
+                </button>
+            </div>
+
+        </form>
+    </section>
+
+    <section class="panneau">
+
+        <div class="liste-entete">
+            <h3>Activités enregistrées</h3>
+
+            <select id="filtre">
+                <option value="toutes">Toutes les activités</option>
+                <option value="publiees">Publiées</option>
+                <option value="non_publiees">Non publiées</option>
+                <option value="camp_technologique">Camp technologique</option>
+                <option value="formation_numerique">Formation numérique</option>
+            </select>
+        </div>
+
+        <div class="table-conteneur">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Activité</th>
+                        <th>Type</th>
+                        <th>Dates</th>
+                        <th>Inscriptions</th>
+                        <th>Publication</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="liste-formations">
+                    <tr>
+                        <td colspan="6" class="vide">
+                            Chargement des activités...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+    const supabase = window.ptkSupabase;
+
+    const formulaire = document.getElementById("formulaire");
+    const liste = document.getElementById("liste-formations");
+    const message = document.getElementById("message");
+
+    let formations = [];
+
+    function afficherMessage(texte, type = "succes") {
+        message.textContent = texte;
+        message.className = type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        setTimeout(() => {
+            message.style.display = "none";
+            message.className = "";
+        }, 5000);
+    }
+
+    function echapper(texte) {
+        return String(texte ?? "").replace(/[&<>"']/g, caractere => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[caractere]);
+    }
+
+    function dateLisible(date) {
+        if (!date) return "Non définie";
+
+        const morceaux = date.split("-");
+        return `${morceaux[2]}/${morceaux[1]}/${morceaux[0]}`;
+    }
+
+    function nomType(type) {
+        return type === "camp_technologique"
+            ? "Camp technologique"
+            : "Formation numérique";
+    }
+
+    function nomStatut(statut) {
+        const statuts = {
+            planifiee: "Planifiée",
+            en_cours: "En cours",
+            terminee: "Terminée",
+            annulee: "Annulée"
+        };
+
+        return statuts[statut] || statut;
+    }
+
+    function nomInscriptions(statut) {
+        const statuts = {
+            non_ouvertes: "Non ouvertes",
+            ouvertes: "Ouvertes",
+            fermees: "Fermées"
+        };
+
+        return statuts[statut] || statut;
+    }
+
+    async function verifierAcces() {
+        if (!supabase) {
+            throw new Error("La configuration Supabase est introuvable.");
+        }
+
+        const { data: sessionData, error: sessionError } =
+            await supabase.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        const session = sessionData.session;
+
+        if (!session) {
+            window.location.href = "login.html";
+            return false;
+        }
+
+        const { data: admin, error } = await supabase
+            .from("admin_users")
+            .select("user_id")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!admin) {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+            return false;
+        }
+
+        return true;
+    }
+
+    async function chargerFormations() {
+        liste.innerHTML = `
+            <tr>
+                <td colspan="6" class="vide">Chargement...</td>
+            </tr>
+        `;
+
+        const { data, error } = await supabase
+            .from("formations")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        formations = data || [];
+
+        afficherStatistiques();
+        afficherListe();
+    }
+
+    function afficherStatistiques() {
+        document.getElementById("total").textContent = formations.length;
+
+        document.getElementById("publiees").textContent =
+            formations.filter(f => f.est_publiee).length;
+
+        document.getElementById("ouvertes").textContent =
+            formations.filter(f => f.statut_inscriptions === "ouvertes").length;
+
+        document.getElementById("terminees").textContent =
+            formations.filter(f => f.statut_activite === "terminee").length;
+    }
+
+    function afficherListe() {
+        const filtre = document.getElementById("filtre").value;
+
+        let resultats = [...formations];
+
+        if (filtre === "publiees") {
+            resultats = resultats.filter(f => f.est_publiee);
+        } else if (filtre === "non_publiees") {
+            resultats = resultats.filter(f => !f.est_publiee);
+        } else if (filtre === "camp_technologique" ||
+                   filtre === "formation_numerique") {
+            resultats = resultats.filter(f => f.type === filtre);
+        }
+
+        if (resultats.length === 0) {
+            liste.innerHTML = `
+                <tr>
+                    <td colspan="6" class="vide">
+                        Aucune activité trouvée.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        liste.innerHTML = resultats.map(f => `
+            <tr>
+                <td>
+                    <strong>${echapper(f.nom)}</strong><br>
+                    <span class="aide">${nomStatut(f.statut_activite)}</span>
+                </td>
+
+                <td>${nomType(f.type)}</td>
+
+                <td>
+                    ${dateLisible(f.date_debut)}<br>
+                    <span class="aide">au ${dateLisible(f.date_fin)}</span>
+                </td>
+
+                <td>
+                    <span class="badge ${
+                        f.statut_inscriptions === "ouvertes"
+                            ? "vert"
+                            : "orange"
+                    }">
+                        ${nomInscriptions(f.statut_inscriptions)}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge ${f.est_publiee ? "vert" : "rouge"}">
+                        ${f.est_publiee ? "Publiée" : "Non publiée"}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="actions-ligne">
+                        <button
+                            class="secondaire"
+                            onclick="modifierFormation(${f.id})"
+                        >
+                            Modifier
+                        </button>
+
+                        <button
+                            class="danger"
+                            onclick="supprimerFormation(${f.id})"
+                        >
+                            Supprimer
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function actualiserPrix() {
+        const type = document.getElementById("type").value;
+        const prix = document.getElementById("prix");
+        const aide = document.getElementById("aide-prix");
+
+        if (type === "camp_technologique") {
+            prix.value = 0;
+            prix.disabled = true;
+            aide.textContent =
+                "Le camp technologique doit avoir un prix de 0 FCFA.";
+        } else {
+            prix.disabled = false;
+            aide.textContent =
+                "Indique le prix en FCFA. Mets 0 si la formation est gratuite.";
+        }
+    }
+
+    function reinitialiserFormulaire() {
+        formulaire.reset();
+
+        document.getElementById("formation-id").value = "";
+        document.getElementById("prix").value = 0;
+
+        document.getElementById("titre-formulaire").textContent =
+            "Ajouter une activité";
+
+        document.getElementById("bouton-enregistrer").textContent =
+            "Enregistrer l'activité";
+
+        document.getElementById("bouton-annuler").style.display = "none";
+
+        actualiserPrix();
+    }
+
+    function modifierFormation(id) {
+        const f = formations.find(element => element.id === id);
+
+        if (!f) return;
+
+        document.getElementById("formation-id").value = f.id;
+        document.getElementById("nom").value = f.nom || "";
+        document.getElementById("description").value = f.description || "";
+        document.getElementById("type").value = f.type;
+        document.getElementById("prix").value = f.prix_cfa;
+        document.getElementById("date-debut").value = f.date_debut || "";
+        document.getElementById("date-fin").value = f.date_fin || "";
+        document.getElementById("ouverture").value =
+            f.date_ouverture_inscriptions || "";
+        document.getElementById("cloture").value =
+            f.date_cloture_inscriptions || "";
+        document.getElementById("places").value =
+            f.nombre_places ?? "";
+        document.getElementById("statut-activite").value =
+            f.statut_activite;
+        document.getElementById("statut-inscriptions").value =
+            f.statut_inscriptions;
+        document.getElementById("publier").checked = f.est_publiee;
+
+        document.getElementById("titre-formulaire").textContent =
+            "Modifier une activité";
+
+        document.getElementById("bouton-enregistrer").textContent =
+            "Enregistrer les modifications";
+
+        document.getElementById("bouton-annuler").style.display =
+            "inline-block";
+
+        actualiserPrix();
+
+        document.getElementById("formulaire-section").scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+
+    async function supprimerFormation(id) {
+        const f = formations.find(element => element.id === id);
+
+        if (!f) return;
+
+        const confirmation = confirm(
+            `Veux-tu vraiment supprimer "${f.nom}" ?\n\n` +
+            "Attention : si des inscriptions sont liées à cette activité, " +
+            "la base de données peut refuser sa suppression."
+        );
+
+        if (!confirmation) return;
+
+        const { error } = await supabase
+            .from("formations")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            afficherMessage(error.message, "erreur");
+            return;
+        }
+
+        afficherMessage("Activité supprimée avec succès.");
+        await chargerFormations();
+    }
+
+    formulaire.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const bouton = document.getElementById("bouton-enregistrer");
+        bouton.disabled = true;
+
+        try {
+            const id = document.getElementById("formation-id").value;
+            const type = document.getElementById("type").value;
+
+            const nom = document.getElementById("nom").value.trim();
+
+            if (!nom) {
+                throw new Error("Le nom de l'activité est obligatoire.");
+            }
+
+            const prix = type === "camp_technologique"
+                ? 0
+                : Number(document.getElementById("prix").value);
+
+            const placesValeur =
+                document.getElementById("places").value;
+
+            const activite = {
+                nom,
+                description:
+                    document.getElementById("description").value.trim() || null,
+
+                type,
+                prix_cfa: prix,
+
+                date_debut:
+                    document.getElementById("date-debut").value || null,
+
+                date_fin:
+                    document.getElementById("date-fin").value || null,
+
+                date_ouverture_inscriptions:
+                    document.getElementById("ouverture").value || null,
+
+                date_cloture_inscriptions:
+                    document.getElementById("cloture").value || null,
+
+                nombre_places:
+                    placesValeur === "" ? null : Number(placesValeur),
+
+                statut_activite:
+                    document.getElementById("statut-activite").value,
+
+                statut_inscriptions:
+                    document.getElementById("statut-inscriptions").value,
+
+                est_publiee:
+                    document.getElementById("publier").checked
+            };
+
+            if (activite.date_debut && activite.date_fin &&
+                activite.date_fin < activite.date_debut) {
+                throw new Error(
+                    "La date de fin ne peut pas précéder la date de début."
+                );
+            }
+
+            if (activite.date_ouverture_inscriptions &&
+                activite.date_cloture_inscriptions &&
+                activite.date_cloture_inscriptions <
+                activite.date_ouverture_inscriptions) {
+                throw new Error(
+                    "La clôture ne peut pas précéder l'ouverture des inscriptions."
+                );
+            }
+
+            if (activite.nombre_places !== null &&
+                (!Number.isInteger(activite.nombre_places) ||
+                 activite.nombre_places <= 0)) {
+                throw new Error(
+                    "Le nombre de places doit être un entier supérieur à zéro."
+                );
+            }
+
+            if (!Number.isInteger(prix) || prix < 0) {
+                throw new Error("Le prix doit être un nombre entier positif.");
+            }
+
+            let resultat;
+
+            if (id) {
+                resultat = await supabase
+                    .from("formations")
+                    .update(activite)
+                    .eq("id", Number(id));
+            } else {
+                resultat = await supabase
+                    .from("formations")
+                    .insert([activite]);
+            }
+
+            if (resultat.error) throw resultat.error;
+
+            afficherMessage(
+                id
+                    ? "Activité modifiée avec succès."
+                    : "Nouvelle activité enregistrée avec succès."
+            );
+
+            reinitialiserFormulaire();
+            await chargerFormations();
+
+        } catch (error) {
+            afficherMessage(error.message, "erreur");
+        } finally {
+            bouton.disabled = false;
+        }
+    });
+
+    document.getElementById("type").addEventListener(
+        "change",
+        actualiserPrix
+    );
+
+    document.getElementById("bouton-annuler").addEventListener(
+        "click",
+        reinitialiserFormulaire
+    );
+
+    document.getElementById("filtre").addEventListener(
+        "change",
+        afficherListe
+    );
+
+    async function demarrer() {
+        try {
+            const autorise = await verifierAcces();
+
+            if (!autorise) return;
+
+            actualiserPrix();
+            await chargerFormations();
+
+        } catch (error) {
+            console.error(error);
+            afficherMessage(
+                "Erreur de chargement : " + error.message,
+                "erreur"
+            );
+        }
+    }
+
+    demarrer();
+</script>
+
+</body>
+</html>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>index.html</loc></url>
-  <url><loc>A%20propos.html</loc></url>
-  <url><loc>Formations.html</loc></url>
-  <url><loc>Blog.html</loc></url>
-  <url><loc>Inscription.html</loc></url>
-  <url><loc>Contact.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/A%20propos.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Formations.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Camp-technologique.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Formations-numeriques.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Blog.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Inscription.html</loc></url>
+  <url><loc>https://ndiaye-tech221.github.io/Ndiaye-Tech/Contact.html</loc></url>
 </urlset>

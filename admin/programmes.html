@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestion des programmes de Passerelle Tech Kédougou.">
+    <title>Programmation | Administration PTK</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #09264d;
+            --blue: #1264bd;
+            --light: #f3f6fb;
+            --text: #20334d;
+            --muted: #718096;
+            --border: #e4eaf1;
+            --green: #16834b;
+            --red: #c03939;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--text);
+            font-family: "Manrope", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 5%;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--navy);
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .brand img {
+            width: 43px;
+            height: 43px;
+            object-fit: contain;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .top-link {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .logout-button {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--red);
+            background: white;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 27px;
+            flex-wrap: wrap;
+        }
+
+        .page-heading h1 {
+            color: var(--navy);
+            font-size: clamp(25px, 4vw, 34px);
+            margin-bottom: 7px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .stat-card span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .stat-card strong {
+            display: block;
+            margin-top: 9px;
+            color: var(--navy);
+            font-size: 27px;
+        }
+
+        .panel {
+            padding: 25px;
+            margin-bottom: 23px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(20,40,70,.035);
+        }
+
+        .panel h2 {
+            margin-bottom: 7px;
+            color: var(--navy);
+            font-size: 19px;
+        }
+
+        .panel-description {
+            margin-bottom: 23px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #334b68;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: #fbfcfe;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(18,100,189,.09);
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        .checkbox-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .checkbox-field input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--blue);
+        }
+
+        .checkbox-field label {
+            font-size: 13px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 17px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .primary {
+            color: white;
+            background: var(--blue);
+        }
+
+        .primary:hover {
+            background: #0d4f99;
+        }
+
+        .secondary {
+            color: var(--text);
+            background: #edf2f7;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            color: var(--muted);
+            background: #f8fafd;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        td {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        td strong {
+            color: var(--navy);
+        }
+
+        .description-cell {
+            max-width: 270px;
+            color: var(--muted);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .published {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .unpublished {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .small-button {
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .edit-button {
+            color: var(--blue);
+        }
+
+        .delete-button {
+            color: var(--red);
+        }
+
+        .empty {
+            padding: 30px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        #message {
+            display: none;
+            padding: 13px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        #message.success {
+            display: block;
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        #message.error {
+            display: block;
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        #message.info {
+            display: block;
+            color: #1e40af;
+            background: #dbeafe;
+        }
+
+        .footer {
+            padding: 25px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 11px;
+        }
+
+        @media(max-width: 700px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid, .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .topbar {
+                padding: 15px 4%;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <img src="../Logo PTK.jpeg" alt="Logo PTK">
+        Administration PTK
+    </div>
+
+    <div class="top-actions">
+        <a href="dashboard.html" class="top-link">← Tableau de bord</a>
+        <button class="logout-button" id="logout-button">Déconnexion</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-heading">
+        <div>
+            <h1>Programmation</h1>
+            <p>Gérez les objectifs, modules, domaines et éléments pédagogiques des programmes PTK.</p>
+        </div>
+    </div>
+
+    <div id="message" role="status" aria-live="polite"></div>
+
+    <section class="stats">
+        <div class="stat-card">
+            <span>Total des éléments</span>
+            <strong id="total-count">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Éléments publiés</span>
+            <strong id="published-count">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>En attente de publication</span>
+            <strong id="draft-count">0</strong>
+        </div>
+    </section>
+
+    <section class="panel" id="form-panel">
+
+        <h2 id="form-title">Ajouter un élément au programme</h2>
+
+        <p class="panel-description">
+            Remplissez les informations ci-dessous pour ajouter un élément
+            à l'un des programmes de Passerelle Tech Kédougou.
+        </p>
+
+        <form id="programme-form">
+
+            <input type="hidden" id="element-id">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="programme">Programme *</label>
+                    <select id="programme" required>
+                        <option value="camp_technologique">Camp technologique</option>
+                        <option value="formation_numerique">Formations numériques</option>
+                        <option value="commun">Commun aux programmes</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="type-element">Type d'élément *</label>
+                    <select id="type-element" required>
+                        <option value="objectif">Objectif</option>
+                        <option value="module">Module</option>
+                        <option value="domaine">Domaine</option>
+                        <option value="pedagogie">Pédagogie</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="titre">Titre *</label>
+                    <input
+                        type="text"
+                        id="titre"
+                        maxlength="180"
+                        placeholder="Ex. : Maîtriser les outils bureautiques"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label for="description">Description *</label>
+                    <textarea
+                        id="description"
+                        placeholder="Décrivez cet objectif, module ou domaine..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="icone">Icône (facultatif)</label>
+                    <input
+                        type="text"
+                        id="icone"
+                        maxlength="30"
+                        placeholder="Ex. : 💻"
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="ordre">Ordre d'affichage</label>
+                    <input
+                        type="number"
+                        id="ordre"
+                        min="0"
+                        value="0"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="est-publie">
+                        <label for="est-publie">Publier cet élément sur le site</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="button primary" id="save-button">
+                    Enregistrer l'élément
+                </button>
+
+                <button type="button" class="button secondary" id="cancel-button" hidden>
+                    Annuler la modification
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>Éléments enregistrés</h2>
+
+        <p class="panel-description">
+            Retrouvez, filtrez et gérez les éléments de programmation déjà enregistrés.
+        </p>
+
+        <div class="filter-row">
+
+            <div class="field">
+                <label for="filter-programme">Filtrer par programme</label>
+                <select id="filter-programme">
+                    <option value="">Tous les programmes</option>
+                    <option value="camp_technologique">Camp technologique</option>
+                    <option value="formation_numerique">Formations numériques</option>
+                    <option value="commun">Commun</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="filter-type">Filtrer par type</label>
+                <select id="filter-type">
+                    <option value="">Tous les types</option>
+                    <option value="objectif">Objectifs</option>
+                    <option value="module">Modules</option>
+                    <option value="domaine">Domaines</option>
+                    <option value="pedagogie">Pédagogie</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ordre</th>
+                        <th>Élément</th>
+                        <th>Programme</th>
+                        <th>Type</th>
+                        <th>Publication</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="elements-table">
+                    <tr>
+                        <td colspan="6" class="empty">Chargement des éléments...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    © 2026 Passerelle Tech Kédougou · Administration
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-config.js"></script>
+
+<script>
+    const supabase = window.ptkSupabase;
+
+    const formulaire = document.getElementById("programme-form");
+    const tableau = document.getElementById("elements-table");
+    const message = document.getElementById("message");
+    const boutonEnregistrer = document.getElementById("save-button");
+
+    const champId = document.getElementById("element-id");
+    const champProgramme = document.getElementById("programme");
+    const champType = document.getElementById("type-element");
+    const champTitre = document.getElementById("titre");
+    const champDescription = document.getElementById("description");
+    const champIcone = document.getElementById("icone");
+    const champOrdre = document.getElementById("ordre");
+    const champPublie = document.getElementById("est-publie");
+
+    const filtreProgramme = document.getElementById("filter-programme");
+    const filtreType = document.getElementById("filter-type");
+
+    let elements = [];
+
+    const nomsProgrammes = {
+        camp_technologique: "Camp technologique",
+        formation_numerique: "Formations numériques",
+        commun: "Commun"
+    };
+
+    const nomsTypes = {
+        objectif: "Objectif",
+        module: "Module",
+        domaine: "Domaine",
+        pedagogie: "Pédagogie"
+    };
+
+    function afficherMessage(texte, type) {
+        message.textContent = texte;
+        message.className = type;
+        message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function nettoyerMessage() {
+        message.textContent = "";
+        message.className = "";
+    }
+
+    function echapperHTML(valeur) {
+        return String(valeur ?? "").replace(/[&<>"']/g, function(caractere) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            }[caractere];
+        });
+    }
+
+    async function verifierAcces() {
+        if (!supabase) {
+            afficherMessage("Connexion à Supabase indisponible.", "error");
+            return false;
+        }
+
+        const { data, error } = await supabase.auth.getSession();
+
+        if (error || !data.session) {
+            window.location.href = "login.html";
+            return false;
+        }
+
+        const { data: admin, error: erreurAdmin } = await supabase
+            .from("admin_users")
+            .select("role")
+            .eq("user_id", data.session.user.id)
+            .eq("role", "president")
+            .maybeSingle();
+
+        if (erreurAdmin || !admin) {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+            return false;
+        }
+
+        return true;
+    }
+
+    async function chargerElements() {
+        tableau.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">Chargement...</td>
+            </tr>
+        `;
+
+        let requete = supabase
+            .from("elements_programme")
+            .select("*")
+            .order("programme")
+            .order("type_element")
+            .order("ordre");
+
+        if (filtreProgramme.value) {
+            requete = requete.eq("programme", filtreProgramme.value);
+        }
+
+        if (filtreType.value) {
+            requete = requete.eq("type_element", filtreType.value);
+        }
+
+        const { data, error } = await requete;
+
+        if (error) {
+            tableau.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">Impossible de charger les éléments.</td>
+                </tr>
+            `;
+            afficherMessage("Erreur de chargement : " + error.message, "error");
+            return;
+        }
+
+        elements = data || [];
+
+        afficherElements();
+        actualiserStatistiques();
+    }
+
+    function afficherElements() {
+        if (elements.length === 0) {
+            tableau.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        Aucun élément trouvé pour ces filtres.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tableau.innerHTML = elements.map(element => `
+            <tr>
+                <td>${element.ordre}</td>
+
+                <td>
+                    <strong>
+                        ${echapperHTML(element.icone)}
+                        ${echapperHTML(element.titre)}
+                    </strong>
+                    <div class="description-cell">
+                        ${echapperHTML(element.description)}
+                    </div>
+                </td>
+
+                <td>${echapperHTML(nomsProgrammes[element.programme] || element.programme)}</td>
+
+                <td>${echapperHTML(nomsTypes[element.type_element] || element.type_element)}</td>
+
+                <td>
+                    <span class="status ${element.est_publie ? "published" : "unpublished"}">
+                        ${element.est_publie ? "Publié" : "Brouillon"}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="actions">
+                        <button
+                            class="small-button edit-button"
+                            data-action="edit"
+                            data-id="${element.id}"
+                        >Modifier</button>
+
+                        <button
+                            class="small-button delete-button"
+                            data-action="delete"
+                            data-id="${element.id}"
+                        >Supprimer</button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function actualiserStatistiques() {
+        const { data: total } = { data: elements.length };
+
+        document.getElementById("total-count").textContent = total;
+
+        document.getElementById("published-count").textContent =
+            elements.filter(element => element.est_publie).length;
+
+        document.getElementById("draft-count").textContent =
+            elements.filter(element => !element.est_publie).length;
+    }
+
+    function reinitialiserFormulaire() {
+        formulaire.reset();
+        champId.value = "";
+        champOrdre.value = 0;
+        champPublie.checked = false;
+
+        document.getElementById("form-title").textContent =
+            "Ajouter un élément au programme";
+
+        boutonEnregistrer.textContent = "Enregistrer l'élément";
+        document.getElementById("cancel-button").hidden = true;
+    }
+
+    formulaire.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        nettoyerMessage();
+
+        const id = champId.value;
+
+        const element = {
+            programme: champProgramme.value,
+            type_element: champType.value,
+            titre: champTitre.value.trim(),
+            description: champDescription.value.trim(),
+            icone: champIcone.value.trim() || null,
+            ordre: Number(champOrdre.value),
+            est_publie: champPublie.checked
+        };
+
+        if (!element.titre || !element.description) {
+            afficherMessage("Le titre et la description sont obligatoires.", "error");
+            return;
+        }
+
+        boutonEnregistrer.disabled = true;
+        boutonEnregistrer.textContent = "Enregistrement...";
+
+        try {
+            let resultat;
+
+            if (id) {
+                resultat = await supabase
+                    .from("elements_programme")
+                    .update(element)
+                    .eq("id", id);
+            } else {
+                resultat = await supabase
+                    .from("elements_programme")
+                    .insert([element]);
+            }
+
+            if (resultat.error) {
+                throw resultat.error;
+            }
+
+            afficherMessage(
+                id ? "Élément modifié avec succès." : "Élément ajouté avec succès.",
+                "success"
+            );
+
+            reinitialiserFormulaire();
+            await chargerElements();
+
+        } catch (erreur) {
+            console.error(erreur);
+            afficherMessage("Erreur d'enregistrement : " + erreur.message, "error");
+        } finally {
+            boutonEnregistrer.disabled = false;
+            boutonEnregistrer.textContent = "Enregistrer l'élément";
+        }
+    });
+
+    tableau.addEventListener("click", async function(event) {
+        const bouton = event.target.closest("button[data-action]");
+
+        if (!bouton) return;
+
+        const id = bouton.dataset.id;
+        const action = bouton.dataset.action;
+
+        const element = elements.find(item => String(item.id) === String(id));
+
+        if (!element) return;
+
+        if (action === "edit") {
+            champId.value = element.id;
+            champProgramme.value = element.programme;
+            champType.value = element.type_element;
+            champTitre.value = element.titre;
+            champDescription.value = element.description;
+            champIcone.value = element.icone || "";
+            champOrdre.value = element.ordre;
+            champPublie.checked = element.est_publie;
+
+            document.getElementById("form-title").textContent =
+                "Modifier un élément";
+
+            boutonEnregistrer.textContent = "Enregistrer les modifications";
+            document.getElementById("cancel-button").hidden = false;
+
+            document.getElementById("form-panel").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        if (action === "delete") {
+            const confirmation = confirm(
+                "Veux-tu vraiment supprimer l'élément « " +
+                element.titre + " » ? Cette action est définitive."
+            );
+
+            if (!confirmation) return;
+
+            bouton.disabled = true;
+
+            const { error } = await supabase
+                .from("elements_programme")
+                .delete()
+                .eq("id", element.id);
+
+            if (error) {
+                afficherMessage("Erreur de suppression : " + error.message, "error");
+                bouton.disabled = false;
+                return;
+            }
+
+            afficherMessage("Élément supprimé avec succès.", "success");
+            await chargerElements();
+        }
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", function() {
+        reinitialiserFormulaire();
+        nettoyerMessage();
+    });
+
+    filtreProgramme.addEventListener("change", chargerElements);
+    filtreType.addEventListener("change", chargerElements);
+
+    document.getElementById("logout-button").addEventListener("click", async function() {
+        const confirmation = confirm("Veux-tu vraiment te déconnecter ?");
+
+        if (!confirmation) return;
+
+        await supabase.auth.signOut();
+        window.location.href = "login.html";
+    });
+
+    async function demarrerPage() {
+        const accesAutorise = await verifierAcces();
+
+        if (accesAutorise) {
+            await chargerElements();
+        }
+    }
+
+    demarrerPage();
+</script>
+
+</body>
+</html>

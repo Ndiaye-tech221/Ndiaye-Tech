@@ -1,0 +1,476 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestion des contenus | Administration PTK</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: #fff;
+            border-bottom: 1px solid #e5eaf1;
+        }
+
+        .admin-header-inner {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .admin-brand {
+            color: #173b70;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .admin-main {
+            padding: 40px 0;
+        }
+
+        .editor-card {
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 30px;
+            background: #fff;
+            border: 1px solid #e5eaf1;
+            border-radius: 14px;
+        }
+
+        .editor-card label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: 700;
+        }
+
+        .editor-card select,
+        .editor-card input,
+        .editor-card textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d5dce6;
+            border-radius: 8px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .editor-card textarea {
+            min-height: 190px;
+            resize: vertical;
+        }
+
+        .editor-card input:focus,
+        .editor-card select:focus,
+        .editor-card textarea:focus {
+            outline: 2px solid #2563eb;
+            border-color: transparent;
+        }
+
+        .publish-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .publish-option input {
+            width: auto;
+        }
+
+        .editor-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .editor-status {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .editor-status.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .editor-status.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .editor-status.info {
+            display: block;
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .editor-help {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-header-inner {
+                padding: 15px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .editor-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="admin-header">
+    <div class="container admin-header-inner">
+        <a href="dashboard.html" class="admin-brand">
+            PTK · Administration
+        </a>
+
+        <button class="btn btn-secondary" id="logout-button" type="button">
+            Déconnexion
+        </button>
+    </div>
+</header>
+
+<main class="admin-main">
+    <div class="container">
+
+        <a href="dashboard.html" class="back-link">
+            ← Retour au tableau de bord
+        </a>
+
+        <div class="section-heading">
+            <span class="eyebrow">Gestion du site</span>
+            <h1>Modifier les contenus</h1>
+            <p>
+                Gérez les textes de présentation des différentes pages de PTK.
+            </p>
+        </div>
+
+        <section class="editor-card">
+
+            <form id="content-form">
+
+                <label for="page-select">Page à gérer</label>
+                <select id="page-select" required>
+                    <option value="camp_technologique">Camp technologique</option>
+                    <option value="formations_numeriques">Formations numériques</option>
+                </select>
+
+                <label for="content-select">Contenu à modifier</label>
+                <select id="content-select" required>
+                    <option value="">Chargement des contenus...</option>
+                </select>
+
+                <label for="title-input">Titre</label>
+                <input
+                    type="text"
+                    id="title-input"
+                    placeholder="Titre du contenu"
+                    required
+                >
+
+                <label for="content-input">Texte de présentation</label>
+                <textarea
+                    id="content-input"
+                    placeholder="Écrivez le contenu ici..."
+                    required
+                ></textarea>
+
+                <p class="editor-help">
+                    Le texte sera affiché sur la page publique correspondante.
+                </p>
+
+                <div class="publish-option">
+                    <input type="checkbox" id="published-input">
+                    <label for="published-input" style="margin:0">
+                        Publier ce contenu
+                    </label>
+                </div>
+
+                <div class="editor-actions">
+                    <button class="btn" type="submit" id="save-button">
+                        Enregistrer les modifications
+                    </button>
+
+                    <button class="btn btn-secondary" type="button" id="reload-button">
+                        Actualiser
+                    </button>
+                </div>
+
+                <div
+                    id="editor-status"
+                    class="editor-status"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+            </form>
+
+        </section>
+
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-config.js"></script>
+
+<script>
+    const pageSelect = document.getElementById("page-select");
+    const contentSelect = document.getElementById("content-select");
+    const titleInput = document.getElementById("title-input");
+    const contentInput = document.getElementById("content-input");
+    const publishedInput = document.getElementById("published-input");
+
+    const form = document.getElementById("content-form");
+    const saveButton = document.getElementById("save-button");
+    const reloadButton = document.getElementById("reload-button");
+    const logoutButton = document.getElementById("logout-button");
+    const statusBox = document.getElementById("editor-status");
+
+    let contenus = [];
+    let contenuActuel = null;
+
+    function afficherStatut(texte, type) {
+        statusBox.textContent = texte;
+        statusBox.className = "editor-status " + type;
+    }
+
+    function viderEditeur() {
+        titleInput.value = "";
+        contentInput.value = "";
+        publishedInput.checked = false;
+        contenuActuel = null;
+    }
+
+    // Vérifier la session et le rôle du président
+    async function verifierAcces() {
+
+        if (!window.ptkSupabase) {
+            afficherStatut("Connexion Supabase indisponible.", "error");
+            return false;
+        }
+
+        const { data: sessionData, error: sessionError } =
+            await window.ptkSupabase.auth.getSession();
+
+        if (sessionError || !sessionData.session) {
+            window.location.replace("login.html");
+            return false;
+        }
+
+        const utilisateur = sessionData.session.user;
+
+        const { data: admin, error: adminError } =
+            await window.ptkSupabase
+                .from("admin_users")
+                .select("role")
+                .eq("user_id", utilisateur.id)
+                .eq("role", "president")
+                .maybeSingle();
+
+        if (adminError || !admin) {
+            await window.ptkSupabase.auth.signOut();
+            window.location.replace("login.html");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Charger les contenus d'une page
+    async function chargerContenus() {
+
+        viderEditeur();
+
+        contentSelect.innerHTML = "";
+        const optionChargement = document.createElement("option");
+        optionChargement.value = "";
+        optionChargement.textContent = "Chargement...";
+        contentSelect.appendChild(optionChargement);
+
+        const page = pageSelect.value;
+
+        const { data, error } = await window.ptkSupabase
+            .from("contenus_pages")
+            .select("page,cle,titre,contenu,ordre,est_publie")
+            .eq("page", page)
+            .order("ordre", { ascending: true });
+
+        if (error) {
+            afficherStatut("Impossible de charger les contenus : " + error.message, "error");
+            return;
+        }
+
+        contenus = data || [];
+        contentSelect.innerHTML = "";
+
+        if (contenus.length === 0) {
+            const optionVide = document.createElement("option");
+            optionVide.value = "";
+            optionVide.textContent = "Aucun contenu trouvé";
+            contentSelect.appendChild(optionVide);
+
+            afficherStatut("Aucun contenu enregistré pour cette page.", "info");
+            return;
+        }
+
+        contenus.forEach((contenu, index) => {
+            const option = document.createElement("option");
+            option.value = contenu.cle;
+            option.textContent = contenu.titre || contenu.cle;
+            contentSelect.appendChild(option);
+        });
+
+        afficherContenuSelectionne();
+
+        afficherStatut(
+            contenus.length + " contenu(s) chargé(s).",
+            "success"
+        );
+    }
+
+    // Afficher le contenu choisi
+    function afficherContenuSelectionne() {
+
+        const cle = contentSelect.value;
+
+        contenuActuel = contenus.find(item => item.cle === cle) || null;
+
+        if (!contenuActuel) {
+            viderEditeur();
+            return;
+        }
+
+        titleInput.value = contenuActuel.titre || "";
+        contentInput.value = contenuActuel.contenu || "";
+        publishedInput.checked = contenuActuel.est_publie === true;
+    }
+
+    // Enregistrer les modifications
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        if (!contenuActuel) {
+            afficherStatut("Sélectionnez d'abord un contenu.", "error");
+            return;
+        }
+
+        const nouveauTitre = titleInput.value.trim();
+        const nouveauContenu = contentInput.value.trim();
+
+        if (!nouveauTitre || !nouveauContenu) {
+            afficherStatut("Le titre et le contenu sont obligatoires.", "error");
+            return;
+        }
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Enregistrement...";
+
+        const { data, error } = await window.ptkSupabase
+            .from("contenus_pages")
+            .update({
+                titre: nouveauTitre,
+                contenu: nouveauContenu,
+                est_publie: publishedInput.checked
+            })
+            .eq("page", contenuActuel.page)
+            .eq("cle", contenuActuel.cle)
+            .select("cle")
+            .maybeSingle();
+
+        saveButton.disabled = false;
+        saveButton.textContent = "Enregistrer les modifications";
+
+        if (error) {
+            console.error("Erreur d'enregistrement :", error);
+            afficherStatut("Erreur : " + error.message, "error");
+            return;
+        }
+
+        if (!data) {
+            afficherStatut(
+                "Aucune modification enregistrée. Vérifiez les autorisations RLS dans Supabase.",
+                "error"
+            );
+            return;
+        }
+
+        afficherStatut("Contenu enregistré avec succès.", "success");
+
+        await chargerContenus();
+    });
+
+    // Changer de page
+    pageSelect.addEventListener("change", chargerContenus);
+
+    // Changer de contenu
+    contentSelect.addEventListener("change", afficherContenuSelectionne);
+
+    // Actualiser
+    reloadButton.addEventListener("click", chargerContenus);
+
+    // Déconnexion
+    logoutButton.addEventListener("click", async function() {
+
+        logoutButton.disabled = true;
+
+        const { error } = await window.ptkSupabase.auth.signOut();
+
+        if (error) {
+            afficherStatut("Erreur de déconnexion : " + error.message, "error");
+            logoutButton.disabled = false;
+            return;
+        }
+
+        window.location.replace("login.html");
+    });
+
+    // Initialisation
+    async function initialiserPage() {
+
+        const autorise = await verifierAcces();
+
+        if (!autorise) {
+            return;
+        }
+
+        await chargerContenus();
+    }
+
+    initialiserPage();
+</script>
+
+</body>
+</html>

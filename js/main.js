@@ -17,6 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggle.setAttribute('aria-expanded', 'false');
             });
         });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.focus();
+            }
+        });
+        document.addEventListener('click', (event) => {
+            if (!nav.contains(event.target) && nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
 
         const normalizePath = (pathname) => {
             const decodedPath = decodeURIComponent(pathname);
@@ -93,6 +106,46 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset();
         });
     });
+
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if ('IntersectionObserver' in window && !motionPreference.matches) {
+        const revealTargets = document.querySelectorAll([
+            'main > section:not(.hero) .section-heading',
+            'main > section:not(.hero) .timeline-item',
+            'main > section:not(.hero) .grid-2 > .card',
+            'main > section:not(.hero) .grid-3 > .card',
+            'main > section:not(.hero) .values-grid > *',
+            'main > section:not(.hero) .principles-grid > *',
+            'main > section:not(.hero) .team-president',
+            'main > section:not(.hero) .team-grid > *',
+            'main > section:not(.hero) .documents-grid > *',
+            'main > section:not(.hero) .program-facts > *',
+            'main > section:not(.hero) .notice',
+            'main > section:not(.hero) .empty-state',
+            'main > section:not(.hero) form.card',
+            'main > section:not(.hero) .list-clean > li',
+            'main > section:not(.hero) .callout'
+        ].join(','));
+
+        if (revealTargets.length) {
+            document.body.classList.add('motion-ready');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.setAttribute('data-revealed', 'true');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: .08, rootMargin: '0px 0px -24px 0px' });
+
+            revealTargets.forEach((element) => {
+                element.setAttribute('data-scroll-reveal', '');
+                const siblingIndex = Array.from(element.parentElement.children).indexOf(element);
+                element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 4) * 55}ms`);
+                revealObserver.observe(element);
+            });
+        }
+    }
 
     if (hero && canvas) {
         const context = canvas.getContext('2d');

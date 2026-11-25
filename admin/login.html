@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Connexion sécurisée à l'administration de Passerelle Tech Kédougou.">
+    <title>Administration PTK | Connexion</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #09264d;
+            --blue: #1264bd;
+            --blue-light: #eaf3ff;
+            --yellow: #f4c542;
+            --text: #172b45;
+            --muted: #718096;
+            --border: #e1e8f0;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Manrope", Arial, sans-serif;
+            background: #f3f6fb;
+            color: var(--text);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* PANNEAU GAUCHE */
+
+        .brand-panel {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 55px 8%;
+            color: white;
+            background:
+                radial-gradient(circle at 85% 15%, rgba(40, 124, 220, .35), transparent 35%),
+                linear-gradient(145deg, #061b38, #0b3970 65%, #1264bd);
+        }
+
+        .brand-panel::before,
+        .brand-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .brand-panel::before {
+            width: 440px;
+            height: 440px;
+            right: -190px;
+            top: 12%;
+        }
+
+        .brand-panel::after {
+            width: 600px;
+            height: 600px;
+            right: -270px;
+            top: 2%;
+        }
+
+        .brand-top,
+        .brand-content,
+        .brand-bottom {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-logo {
+            width: 90px;
+            height: 90px;
+            padding: 9px;
+            object-fit: contain;
+            background: white;
+            border-radius: 17px;
+        }
+
+        .brand-content {
+            max-width: 560px;
+            margin: 55px 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 25px;
+            color: #f7d66d;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 26px;
+            height: 2px;
+            background: var(--yellow);
+        }
+
+        .brand-content h1 {
+            max-width: 520px;
+            margin-bottom: 22px;
+            color: white;
+            font-size: clamp(34px, 4vw, 55px);
+            line-height: 1.17;
+            letter-spacing: -2px;
+            font-weight: 800;
+        }
+
+        .brand-content h1 span {
+            color: var(--yellow);
+        }
+
+        .brand-description {
+            max-width: 470px;
+            color: rgba(255,255,255,.78);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .brand-features {
+            display: grid;
+            gap: 17px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: rgba(255,255,255,.91);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            color: var(--yellow);
+            background: rgba(255,255,255,.11);
+            font-size: 17px;
+        }
+
+        .brand-bottom {
+            color: rgba(255,255,255,.55);
+            font-size: 11px;
+        }
+
+        /* PANNEAU DROIT */
+
+        .form-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 55px 9%;
+            background: #f8fafd;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 42px;
+            background: white;
+            border: 1px solid #edf1f6;
+            border-radius: 22px;
+            box-shadow: 0 20px 65px rgba(17, 43, 77, .08);
+        }
+
+        .mobile-logo {
+            display: none;
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin: 0 auto 25px;
+        }
+
+        .form-tag {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 30px;
+            color: var(--blue);
+            background: var(--blue-light);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .login-card h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--navy);
+            font-size: 29px;
+            line-height: 1.3;
+            letter-spacing: -1px;
+        }
+
+        .login-description {
+            margin-bottom: 32px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .field {
+            margin-bottom: 21px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 9px;
+            color: #263c58;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            height: 53px;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            color: var(--text);
+            background: #fbfcfe;
+            font-family: inherit;
+            font-size: 13px;
+            transition: .2s ease;
+        }
+
+        .input-wrap input:focus {
+            border-color: var(--blue);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(18,100,189,.09);
+        }
+
+        .input-wrap input::placeholder {
+            color: #a2adba;
+        }
+
+        .password-input {
+            padding-right: 85px !important;
+        }
+
+        .show-password {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--blue);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .forgot-password {
+            display: block;
+            width: fit-content;
+            margin: -5px 0 25px auto;
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            min-height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            background: linear-gradient(100deg, #0d4f99, #1674d2);
+            box-shadow: 0 8px 20px rgba(18,100,189,.2);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            transition: .2s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(18,100,189,.27);
+        }
+
+        .login-button:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 9px;
+            overflow-wrap: anywhere;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .login-message.error {
+            display: block;
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .login-message.success {
+            display: block;
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #edf1f6;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 23px;
+            color: #66788e;
+            text-align: center;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            color: var(--blue);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                display: none;
+            }
+
+            .form-panel {
+                min-height: 100vh;
+                padding: 35px 18px;
+            }
+
+            .login-card {
+                max-width: 450px;
+                padding: 35px 28px;
+            }
+
+            .mobile-logo {
+                display: block;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .login-card {
+                padding: 30px 21px;
+            }
+
+            .login-card h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="page">
+
+        <!-- IDENTITÉ VISUELLE PTK -->
+        <section class="brand-panel">
+
+            <div class="brand-top">
+                <img
+                    src="../Logo PTK.jpeg"
+                    alt="Logo Passerelle Tech Kédougou"
+                    class="brand-logo"
+                >
+            </div>
+
+            <div class="brand-content">
+
+                <div class="eyebrow">Espace de gestion sécurisé</div>
+
+                <h1>
+                    Construire aujourd'hui
+                    <span>les leaders de demain.</span>
+                </h1>
+
+                <p class="brand-description">
+                    Bienvenue dans l'espace d'administration de Passerelle
+                    Tech Kédougou. Gérez les activités, les formations et
+                    les contenus de votre plateforme depuis un seul endroit.
+                </p>
+
+                <div class="brand-features">
+
+                    <div class="feature">
+                        <span class="feature-icon">✦</span>
+                        Gestion des formations et programmes
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">⌘</span>
+                        Administration des contenus du site
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        Accès réservé aux personnes autorisées
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="brand-bottom">
+                © 2026 Passerelle Tech Kédougou · Tous droits réservés.
+            </div>
+
+        </section>
+
+        <!-- FORMULAIRE DE CONNEXION -->
+        <section class="form-panel">
+
+            <div class="login-card">
+
+                <img
+                    src="../Logo PTK.jpeg"
+                    alt="Logo PTK"
+                    class="mobile-logo"
+                >
+
+                <span class="form-tag">Administration PTK</span>
+
+                <h2>Content de vous revoir.</h2>
+
+                <p class="login-description">
+                    Connectez-vous avec vos identifiants pour accéder
+                    à votre espace président.
+                </p>
+
+                <form id="login-form">
+
+                    <div class="field">
+                        <label for="email">Adresse e-mail</label>
+
+                        <div class="input-wrap">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="exemple@adresse.com"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Mot de passe</label>
+
+                        <div class="input-wrap">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="password-input"
+                                placeholder="Votre mot de passe"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                id="toggle-password"
+                            >
+                                Afficher
+                            </button>
+                        </div>
+                    </div>
+
+                    <a
+                        href="#"
+                        class="forgot-password"
+                        id="forgot-password"
+                    >
+                        Mot de passe oublié ?
+                    </a>
+
+                    <button
+                        class="login-button"
+                        type="submit"
+                        id="login-button"
+                    >
+                        Se connecter <span>→</span>
+                    </button>
+
+                    <div
+                        id="login-message"
+                        class="login-message"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                </form>
+
+                <div class="security-note">
+                    <span>🔒</span>
+                    Connexion sécurisée · Accès autorisé uniquement
+                </div>
+
+                <a href="../index.html" class="back-link">
+                    ← Retour au site PTK
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+
+    <script>
+        const formulaire = document.getElementById("login-form");
+        const bouton = document.getElementById("login-button");
+        const message = document.getElementById("login-message");
+        const lienOublie = document.getElementById("forgot-password");
+        const champMotDePasse = document.getElementById("password");
+        const boutonAfficher = document.getElementById("toggle-password");
+
+        // Adresse de réinitialisation relative à cette page.
+        // Fonctionne en local et sur GitHub Pages.
+        const adresseReinitialisation = new URL(
+            "reset-password.html",
+            window.location.href
+        ).href;
+
+        function afficherMessage(texte, type) {
+            message.textContent = texte;
+            message.className = "login-message " + type;
+        }
+
+        // AFFICHER OU MASQUER LE MOT DE PASSE
+        boutonAfficher.addEventListener("click", function() {
+            const motDePasseVisible = champMotDePasse.type === "text";
+
+            champMotDePasse.type = motDePasseVisible ? "password" : "text";
+            boutonAfficher.textContent = motDePasseVisible
+                ? "Afficher"
+                : "Masquer";
+        });
+
+        // CONNEXION DU PRÉSIDENT
+        formulaire.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = champMotDePasse.value;
+
+            if (!window.ptkSupabase) {
+                afficherMessage(
+                    "Connexion à Supabase indisponible.",
+                    "error"
+                );
+                return;
+            }
+
+            bouton.disabled = true;
+            bouton.textContent = "Connexion en cours...";
+            message.className = "login-message";
+
+            try {
+                const { data: connexion, error: erreurConnexion } =
+                    await window.ptkSupabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
+                if (erreurConnexion) {
+                    throw erreurConnexion;
+                }
+
+                const utilisateur = connexion.user;
+
+                const { data: admin, error: erreurAdmin } =
+                    await window.ptkSupabase
+                        .from("admin_users")
+                        .select("role")
+                        .eq("user_id", utilisateur.id)
+                        .eq("role", "president")
+                        .maybeSingle();
+
+                if (erreurAdmin) {
+                    throw erreurAdmin;
+                }
+
+                if (!admin) {
+                    await window.ptkSupabase.auth.signOut();
+
+                    throw new Error(
+                        "Ce compte n'est pas autorisé à accéder à l'administration."
+                    );
+                }
+
+                afficherMessage(
+                    "Connexion réussie. Redirection...",
+                    "success"
+                );
+
+                window.location.href = "dashboard.html";
+
+            } catch (erreur) {
+                console.error("Erreur de connexion :", erreur);
+
+                afficherMessage(
+                    erreur.message || "Une erreur est survenue pendant la connexion.",
+                    "error"
+                );
+
+                bouton.disabled = false;
+                bouton.innerHTML = 'Se connecter <span>→</span>';
+            }
+        });
+
+        // RÉINITIALISATION DU MOT DE PASSE
+        lienOublie.addEventListener("click", async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+
+            if (!email) {
+                afficherMessage(
+                    "Entre d'abord ton adresse e-mail dans le champ prévu.",
+                    "error"
+                );
+                document.getElementById("email").focus();
+                return;
+            }
+
+            if (!window.ptkSupabase) {
+                afficherMessage(
+                    "Connexion à Supabase indisponible.",
+                    "error"
+                );
+                return;
+            }
+
+            lienOublie.style.pointerEvents = "none";
+            lienOublie.textContent = "Envoi en cours...";
+
+            try {
+                const { error } =
+                    await window.ptkSupabase.auth.resetPasswordForEmail(
+                        email,
+                        {
+                            redirectTo: adresseReinitialisation
+                        }
+                    );
+
+                if (error) {
+                    throw error;
+                }
+
+                afficherMessage(
+                    "Demande envoyée. Consulte ta boîte e-mail pour récupérer le lien de réinitialisation.",
+                    "success"
+                );
+
+            } catch (erreur) {
+                console.error("Erreur de réinitialisation :", erreur);
+
+                afficherMessage(
+                    erreur.message || "Impossible d'envoyer le courrier.",
+                    "error"
+                );
+
+            } finally {
+                lienOublie.style.pointerEvents = "auto";
+                lienOublie.textContent = "Mot de passe oublié ?";
+            }
+        });
+    </script>
+
+</body>
+</html>

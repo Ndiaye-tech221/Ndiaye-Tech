@@ -1,0 +1,740 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestion des inscriptions de Passerelle Tech Kédougou.">
+    <title>Gestion des inscriptions | PTK</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+
+    <style>
+        :root {
+            --bleu: #123b70;
+            --bleu-fonce: #0b2445;
+            --fond: #f3f6fa;
+            --texte: #243247;
+            --gris: #718096;
+            --bordure: #e1e7ef;
+            --vert: #16834b;
+            --rouge: #c0392b;
+            --orange: #a66a00;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--fond);
+            color: var(--texte);
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: var(--bleu-fonce);
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 21px;
+            margin: 0 0 5px;
+        }
+
+        header p {
+            margin: 0;
+            color: #cbd7e8;
+            font-size: 13px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            color: var(--bleu-fonce);
+            margin: 0 0 7px;
+        }
+
+        .sous-titre {
+            color: var(--gris);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .statistiques {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 23px 0;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--bordure);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .stat span {
+            display: block;
+            color: var(--gris);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat strong {
+            font-size: 25px;
+            color: var(--bleu);
+        }
+
+        .panneau {
+            background: white;
+            border: 1px solid var(--bordure);
+            border-radius: 13px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .outils {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .outils h3 {
+            margin: 0;
+            color: var(--bleu-fonce);
+        }
+
+        .filtres {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 11px 12px;
+            border: 1px solid #d6deea;
+            border-radius: 8px;
+            font: inherit;
+            font-size: 13px;
+            background: white;
+            color: var(--texte);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--bleu);
+        }
+
+        .table-conteneur {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--bordure);
+            text-align: left;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: var(--gris);
+        }
+
+        td strong {
+            color: var(--bleu-fonce);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .attente {
+            background: #fff1d8;
+            color: var(--orange);
+        }
+
+        .acceptee {
+            background: #e4f6eb;
+            color: var(--vert);
+        }
+
+        .refusee, .annulee {
+            background: #fdebea;
+            color: var(--rouge);
+        }
+
+        button {
+            border: 0;
+            padding: 8px 11px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .primaire {
+            background: var(--bleu);
+            color: white;
+        }
+
+        .secondaire {
+            background: #e9eef5;
+            color: var(--bleu-fonce);
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        #message {
+            display: none;
+            padding: 13px 15px;
+            margin: 18px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        #message.succes {
+            display: block;
+            background: #e5f6eb;
+            color: #176b3d;
+        }
+
+        #message.erreur {
+            display: block;
+            background: #fdebea;
+            color: #a52c24;
+        }
+
+        .vide {
+            text-align: center;
+            padding: 30px;
+            color: var(--gris);
+        }
+
+        .details {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f7f9fc;
+            border: 1px solid var(--bordure);
+            border-radius: 10px;
+        }
+
+        .details h3 {
+            margin: 0 0 15px;
+            color: var(--bleu-fonce);
+        }
+
+        .details p {
+            margin: 9px 0;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .details strong {
+            color: var(--bleu);
+        }
+
+        @media (max-width: 750px) {
+            main {
+                padding: 0 12px;
+                margin-top: 20px;
+            }
+
+            .statistiques {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 9px;
+            }
+
+            .stat {
+                padding: 14px;
+            }
+
+            .panneau {
+                padding: 15px;
+            }
+
+            .filtres {
+                width: 100%;
+            }
+
+            .filtres input,
+            .filtres select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>Passerelle Tech Kédougou</h1>
+        <p>Espace d'administration · Gestion des inscriptions</p>
+    </div>
+    <a href="dashboard.html">← Retour au tableau de bord</a>
+</header>
+
+<main>
+
+    <h2>Gestion des inscriptions</h2>
+    <p class="sous-titre">
+        Consulte et traite les demandes d'inscription aux activités de PTK.
+    </p>
+
+    <div id="message"></div>
+
+    <section class="statistiques">
+        <div class="stat">
+            <span>Total des inscriptions</span>
+            <strong id="total">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>En attente</span>
+            <strong id="attente">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>Acceptées</span>
+            <strong id="acceptees">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>Refusées</span>
+            <strong id="refusees">0</strong>
+        </div>
+    </section>
+
+    <section class="panneau">
+
+        <div class="outils">
+            <h3>Liste des inscriptions</h3>
+
+            <div class="filtres">
+                <input
+                    type="search"
+                    id="recherche"
+                    placeholder="Rechercher un candidat..."
+                >
+
+                <select id="filtre-statut">
+                    <option value="toutes">Tous les statuts</option>
+                    <option value="en_attente">En attente</option>
+                    <option value="acceptee">Acceptées</option>
+                    <option value="refusee">Refusées</option>
+                    <option value="annulee">Annulées</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-conteneur">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidat</th>
+                        <th>Formation</th>
+                        <th>Téléphone</th>
+                        <th>Date de demande</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="liste-inscriptions">
+                    <tr>
+                        <td colspan="6" class="vide">
+                            Chargement des inscriptions...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="details" class="details">
+            <h3>Détails de l'inscription</h3>
+            <div id="contenu-details"></div>
+            <button class="secondaire" id="fermer-details">
+                Fermer les détails
+            </button>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+    const supabase = window.ptkSupabase;
+
+    const liste = document.getElementById("liste-inscriptions");
+    const message = document.getElementById("message");
+
+    let inscriptions = [];
+
+    function echapper(texte) {
+        return String(texte ?? "").replace(/[&<>"']/g, caractere => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[caractere]);
+    }
+
+    function afficherMessage(texte, type = "succes") {
+        message.textContent = texte;
+        message.className = type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        setTimeout(() => {
+            message.style.display = "none";
+            message.className = "";
+        }, 5000);
+    }
+
+    function dateLisible(date) {
+        if (!date) return "Non renseignée";
+
+        return new Date(date).toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        });
+    }
+
+    function statutLisible(statut) {
+        const noms = {
+            en_attente: "En attente",
+            acceptee: "Acceptée",
+            refusee: "Refusée",
+            annulee: "Annulée"
+        };
+
+        return noms[statut] || statut;
+    }
+
+    function afficherStatistiques() {
+        document.getElementById("total").textContent =
+            inscriptions.length;
+
+        document.getElementById("attente").textContent =
+            inscriptions.filter(i => i.statut === "en_attente").length;
+
+        document.getElementById("acceptees").textContent =
+            inscriptions.filter(i => i.statut === "acceptee").length;
+
+        document.getElementById("refusees").textContent =
+            inscriptions.filter(i => i.statut === "refusee").length;
+    }
+
+    async function verifierAcces() {
+        if (!supabase) {
+            throw new Error("La configuration Supabase est introuvable.");
+        }
+
+        const { data, error } = await supabase.auth.getSession();
+
+        if (error) throw error;
+
+        if (!data.session) {
+            window.location.href = "login.html";
+            return false;
+        }
+
+        const { data: admin, error: adminError } = await supabase
+            .from("admin_users")
+            .select("user_id")
+            .eq("user_id", data.session.user.id)
+            .maybeSingle();
+
+        if (adminError) throw adminError;
+
+        if (!admin) {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+            return false;
+        }
+
+        return true;
+    }
+
+    async function chargerInscriptions() {
+        liste.innerHTML = `
+            <tr>
+                <td colspan="6" class="vide">Chargement...</td>
+            </tr>
+        `;
+
+        const { data, error } = await supabase
+            .from("inscriptions")
+            .select(`
+                id,
+                formation_id,
+                nom_complet,
+                email,
+                telephone,
+                message,
+                statut,
+                created_at,
+                formations (
+                    nom,
+                    type
+                )
+            `)
+            .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        inscriptions = data || [];
+
+        afficherStatistiques();
+        afficherListe();
+    }
+
+    function afficherListe() {
+        const recherche = document
+            .getElementById("recherche")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const filtre = document.getElementById("filtre-statut").value;
+
+        let resultats = [...inscriptions];
+
+        if (filtre !== "toutes") {
+            resultats = resultats.filter(i => i.statut === filtre);
+        }
+
+        if (recherche) {
+            resultats = resultats.filter(i =>
+                (i.nom_complet || "").toLowerCase().includes(recherche) ||
+                (i.email || "").toLowerCase().includes(recherche) ||
+                (i.telephone || "").toLowerCase().includes(recherche) ||
+                (i.formations?.nom || "").toLowerCase().includes(recherche)
+            );
+        }
+
+        if (resultats.length === 0) {
+            liste.innerHTML = `
+                <tr>
+                    <td colspan="6" class="vide">
+                        Aucune inscription trouvée.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        liste.innerHTML = resultats.map(i => `
+            <tr>
+                <td>
+                    <strong>${echapper(i.nom_complet)}</strong><br>
+                    <span>${echapper(i.email)}</span>
+                </td>
+
+                <td>
+                    ${echapper(i.formations?.nom || "Formation inconnue")}
+                </td>
+
+                <td>${echapper(i.telephone)}</td>
+
+                <td>${dateLisible(i.created_at)}</td>
+
+                <td>
+                    <span class="badge ${i.statut}">
+                        ${statutLisible(i.statut)}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="actions">
+                        <button
+                            class="secondaire"
+                            onclick="voirDetails(${i.id})"
+                        >
+                            Détails
+                        </button>
+
+                        <select
+                            aria-label="Modifier le statut"
+                            onchange="changerStatut(${i.id}, this.value)"
+                        >
+                            <option value="">Changer</option>
+                            <option value="en_attente">En attente</option>
+                            <option value="acceptee">Accepter</option>
+                            <option value="refusee">Refuser</option>
+                            <option value="annulee">Annuler</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function voirDetails(id) {
+        const i = inscriptions.find(element => element.id === id);
+
+        if (!i) return;
+
+        document.getElementById("contenu-details").innerHTML = `
+            <p><strong>Nom complet :</strong> ${echapper(i.nom_complet)}</p>
+            <p><strong>E-mail :</strong> ${echapper(i.email)}</p>
+            <p><strong>Téléphone :</strong> ${echapper(i.telephone)}</p>
+            <p><strong>Formation :</strong> ${echapper(i.formations?.nom || "Inconnue")}</p>
+            <p><strong>Type :</strong> ${
+                i.formations?.type === "camp_technologique"
+                    ? "Camp technologique"
+                    : "Formation numérique"
+            }</p>
+            <p><strong>Statut :</strong> ${statutLisible(i.statut)}</p>
+            <p><strong>Date de demande :</strong> ${dateLisible(i.created_at)}</p>
+            <p><strong>Message :</strong></p>
+            <p>${echapper(i.message || "Aucun message fourni.")}</p>
+        `;
+
+        const panneau = document.getElementById("details");
+        panneau.style.display = "block";
+
+        panneau.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }
+
+    async function changerStatut(id, nouveauStatut) {
+        if (!nouveauStatut) return;
+
+        const inscription = inscriptions.find(i => i.id === id);
+
+        if (!inscription) return;
+
+        const ancienStatut = inscription.statut;
+
+        if (ancienStatut === nouveauStatut) return;
+
+        const confirmation = confirm(
+            `Confirmer le changement de statut de cette inscription vers : ` +
+            `${statutLisible(nouveauStatut)} ?`
+        );
+
+        if (!confirmation) {
+            afficherListe();
+            return;
+        }
+
+        const { error } = await supabase
+            .from("inscriptions")
+            .update({ statut: nouveauStatut })
+            .eq("id", id);
+
+        if (error) {
+            afficherMessage(
+                "Impossible de modifier le statut : " + error.message,
+                "erreur"
+            );
+
+            afficherListe();
+            return;
+        }
+
+        afficherMessage("Statut de l'inscription mis à jour.");
+
+        await chargerInscriptions();
+    }
+
+    document.getElementById("recherche").addEventListener(
+        "input",
+        afficherListe
+    );
+
+    document.getElementById("filtre-statut").addEventListener(
+        "change",
+        afficherListe
+    );
+
+    document.getElementById("fermer-details").addEventListener(
+        "click",
+        () => {
+            document.getElementById("details").style.display = "none";
+        }
+    );
+
+    async function demarrer() {
+        try {
+            const autorise = await verifierAcces();
+
+            if (!autorise) return;
+
+            await chargerInscriptions();
+
+        } catch (error) {
+            console.error(error);
+
+            afficherMessage(
+                "Erreur de chargement : " + error.message,
+                "erreur"
+            );
+
+            liste.innerHTML = `
+                <tr>
+                    <td colspan="6" class="vide">
+                        Impossible de charger les inscriptions.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    demarrer();
+</script>
+
+</body>
+</html>

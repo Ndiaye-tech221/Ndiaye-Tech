@@ -1,0 +1,277 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Tableau de bord de l'administration Passerelle Tech Kédougou.">
+
+    <title>Tableau de bord | Administration PTK</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: #fff;
+            border-bottom: 1px solid #e5eaf1;
+        }
+
+        .admin-header-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .admin-brand {
+            font-weight: 800;
+            font-size: 20px;
+            color: #173b70;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-user span {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .admin-main {
+            padding: 45px 0;
+        }
+
+        .admin-welcome {
+            margin-bottom: 30px;
+        }
+
+        .admin-welcome h1 {
+            margin-bottom: 8px;
+        }
+
+        .admin-welcome p {
+            color: #64748b;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .admin-card {
+            display: block;
+            padding: 25px;
+            background: #fff;
+            border: 1px solid #e5eaf1;
+            border-radius: 14px;
+            color: inherit;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(20, 40, 70, .08);
+        }
+
+        .admin-card .admin-icon {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .admin-card h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .admin-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .admin-status {
+            margin-top: 30px;
+            padding: 18px 20px;
+            background: #fff;
+            border: 1px solid #e5eaf1;
+            border-radius: 12px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .admin-message {
+            padding: 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .admin-header-inner {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 16px 0;
+            }
+
+            .admin-user {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div class="container admin-header-inner">
+
+            <a href="../index.html" class="admin-brand">
+                PTK · Administration
+            </a>
+
+            <div class="admin-user">
+                <span id="admin-email">Vérification de la session...</span>
+
+                <button class="btn btn-secondary" id="logout-button" type="button">
+                    Déconnexion
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+
+            <section class="admin-welcome">
+                <span class="eyebrow">Espace sécurisé</span>
+                <h1>Tableau de bord</h1>
+                <p>
+                    Bienvenue dans l’espace d’administration de Passerelle Tech Kédougou.
+                </p>
+            </section>
+
+            <section class="admin-grid" aria-label="Gestion du site">
+
+                <a href="contenus.html" class="admin-card">
+                    <div class="admin-icon" aria-hidden="true">📝</div>
+                    <h2>Contenus des pages</h2>
+                    <p>
+                        Modifier les présentations et les textes des pages du site.
+                    </p>
+                </a>
+
+                <a href="programmes.html" class="admin-card">
+                    <div class="admin-icon" aria-hidden="true">📚</div>
+                    <h2>Programmes</h2>
+                    <p>
+                        Gérer les objectifs, modules et domaines de formation.
+                    </p>
+                </a>
+
+                <a href="formations.html" class="admin-card">
+                    <div class="admin-icon" aria-hidden="true">🎓</div>
+                    <h2>Formations et sessions</h2>
+                    <p>
+                        Préparer et gérer les différentes sessions de formation.
+                    </p>
+                </a>
+
+                <a href="inscriptions.html" class="admin-card">
+                    <div class="admin-icon" aria-hidden="true">📋</div>
+                    <h2>Inscriptions</h2>
+                    <p>
+                        Consulter et suivre les demandes d’inscription.
+                    </p>
+                </a>
+
+            </section>
+
+            <div class="admin-status" id="admin-status">
+                Vérification de votre autorisation...
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+
+    <script>
+        const statut = document.getElementById("admin-status");
+        const emailAdmin = document.getElementById("admin-email");
+        const boutonDeconnexion = document.getElementById("logout-button");
+
+        async function verifierAcces() {
+
+            if (!window.ptkSupabase) {
+                statut.textContent = "Connexion à Supabase indisponible.";
+                return;
+            }
+
+            const { data: sessionData, error: sessionError } =
+                await window.ptkSupabase.auth.getSession();
+
+            if (sessionError || !sessionData.session) {
+                window.location.replace("login.html");
+                return;
+            }
+
+            const utilisateur = sessionData.session.user;
+
+            const { data: admin, error: adminError } =
+                await window.ptkSupabase
+                    .from("admin_users")
+                    .select("role")
+                    .eq("user_id", utilisateur.id)
+                    .eq("role", "president")
+                    .maybeSingle();
+
+            if (adminError || !admin) {
+                await window.ptkSupabase.auth.signOut();
+                window.location.replace("login.html");
+                return;
+            }
+
+            emailAdmin.textContent = utilisateur.email || "Président";
+            statut.textContent = "Accès autorisé : votre compte possède le rôle président.";
+        }
+
+        boutonDeconnexion.addEventListener("click", async function() {
+
+            boutonDeconnexion.disabled = true;
+            boutonDeconnexion.textContent = "Déconnexion...";
+
+            const { error } = await window.ptkSupabase.auth.signOut();
+
+            if (error) {
+                console.error("Erreur de déconnexion :", error);
+                boutonDeconnexion.disabled = false;
+                boutonDeconnexion.textContent = "Déconnexion";
+                statut.textContent = "La déconnexion a échoué. Réessayez.";
+                return;
+            }
+
+            window.location.replace("login.html");
+        });
+
+        verifierAcces();
+    </script>
+
+</body>
+</html>
